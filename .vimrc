@@ -289,6 +289,11 @@ Plugin 'bkad/CamelCaseMotion'
 "   {Visual}["x]gr        Replace the selection with the contents of register x.
 Plugin 'vim-scripts/ReplaceWithRegister'
 
+" Ranger integration in vim and neovim
+"   use `:Ranger` to open ranger in the current file's directory
+"   use `:RangerWorkingDirectory` to open ranger in the current workspace
+"     (current workspace is the directory vim is currently `cd`ed into)
+Plugin 'francoiscabrol/ranger.vim'
 
 
 " all plugins must be added before the following line (required)
@@ -1399,6 +1404,16 @@ let g:jedi#popup_on_dot = 0
 "   let g:CommandTCancelMap = ['<esc>', '<c-c>']
 " endif
 " TODO: re-add this
+
+" ######## francoiscabrol/ranger.vim ########
+"
+" --
+" don't add default shortcuts
+let g:ranger_map_keys = 0
+" --
+" shortcut to open ranger
+nnoremap <leader>f :Ranger<cr>
+nnoremap <leader>F :RangerNewTab<cr>
 
 
 
