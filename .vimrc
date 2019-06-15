@@ -1,4 +1,10 @@
 "
+" ######## README ########
+"
+" To install plugins, the first time you open vim do: `:PluginInstall`
+"
+"
+"
 " ########            ########
 " ######## CHEATSHEET ########
 " ########            ########
@@ -26,6 +32,24 @@
 " ++ gF                    " to file under cursor (if the filename is followed
 "                          " by a line number jump to the specific line)
 "
+" -- Quickfix list (same for all windows)
+" ++ :vimgrep puts output there
+" ++ :grep as well
+" ++ :Ggrep as well (fugitive)
+"
+" ++ :cw   : open quickfix list if there are errors; close it otherwise
+" ++ :cn   : jump to next quickfix line
+" ++ :cc 2 : jump to 2nd quickfix line
+"
+" -- Location list (one per window)
+" ++ :lvimgrep puts output there
+" ++ :lgrep as well
+" ++ :Glgrep as well (fugitive)
+"
+" ++ :lw   : open location list if there are errors; close it otherwise
+" ++ :ln   : jump to next location-list line
+" ++ :ll 2 : jump to 2nd location-list line
+"
 " -- objects (used in visual mode, folds, yank with movement etc):
 "    (from :help visual-operators)
 " ++ aw/iw    a word (with/without white space)
@@ -50,8 +74,11 @@
 " ++ :r !git grep -n something
 "
 " -- folding navigation:
+" ++ za      toggle fold (open/closed)
+" ++ zA      on closed fold: open it and all sub-folds recursively
+"            on open fold: it will close ALL folds recursively (bad)
+"            use :BetterZA instead
 " ++ zv      open just enough folds to show the line the cursor is on
-" ++ zA      on closed fold: open it recursively  (don't use it on open fold)
 " ++ zx      like zv but also close non-relevant folds  (and recompute folds)
 "
 " -- in visual mode (having selected some text) a single 'o' moves you between
@@ -66,16 +93,6 @@
 
 
 "
-" ########              ########
-" ######## MY VARIABLES ########
-" ########              ########
-"
-" -- g:open_nerd_tree
-" ++ if it exists when starting vim, we'll open the nerd tree window
-
-
-
-"
 " ########         ########
 " ######## GENERAL ########
 " ########         ########
@@ -84,7 +101,6 @@
 set nocompatible
 " enable syntax highlighting
 syntax on
-
 
 
 
@@ -110,14 +126,14 @@ Plugin 'VundleVim/Vundle.vim'
 " and foldmethod manual is used the rest of the time.
 Plugin 'Konfekt/FastFold'
 
+" Fancy fold texts
+Plugin 'Konfekt/FoldText'
+
 " Syntax file for JavaScript libraries. (jQuery etc)
 " Plugin 'othree/javascript-libraries-syntax.vim'
 
 " Enhanced javascript syntax file.
-Plugin 'jelera/vim-javascript-syntax'
-
-" Better file/directory browser.
-" Plugin 'scrooloose/nerdtree'
+" Plugin 'jelera/vim-javascript-syntax'
 
 " Use vim as a python ide.
 " (I also have it disabled via its settings)
@@ -125,13 +141,23 @@ Plugin 'jelera/vim-javascript-syntax'
 " Plugin 'klen/python-mode'
 
 " Improved syntax highlighting for rspec.
-Plugin 'keith/rspec.vim'
+" (included in vim-polyglot)
+" Plugin 'keith/rspec.vim'
 
 " Switch between single and multi-line statements with gS/gJ.
 " Plugin 'AndrewRadev/splitjoin.vim'
 
 " Syntax checking through external syntax checkers.
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
+
+" Make Vim handle line and column numbers in file names with a minimum of fuss
+" Allows you to open a specific file on a specific file via bash:
+" `vim my_file.rb:154`
+Plugin 'wsdjeg/vim-fetch'
+
+" Asynchronous syntax checking through external checkers (needs vim 8 or neovim)
+Plugin 'w0rp/ale'
+let g:ale_echo_msg_format = '%linter% says: %s'
 
 " Align text using `:Tabularize /<delimiter>`
 Plugin 'godlygeek/tabular'
@@ -142,26 +168,25 @@ Plugin 'godlygeek/tabular'
 " Lean & mean status/tabline for vim that's light as air.
 Plugin 'vim-airline/vim-airline'
 
-" A collection of themes for vim-airline
+" A collection of themes for vim-airline (make airline play well with solarized)
 Plugin 'vim-airline/vim-airline-themes'
 
 " CoffeeScript support for vim (syntax, indenting, compiling and more).
-Plugin 'kchmck/vim-coffee-script'
+" (included in vim-polyglot)
+" Plugin 'kchmck/vim-coffee-script'
 
 " Precision colorscheme (solarized).
 Plugin 'altercation/vim-colors-solarized'
 
+" Syntax highlighting for hackers.
+" The successor to Tomorrow Theme colorscheme.
+" Plugin 'chriskempson/base16-vim'
+
 " Comment stuff out using gcc/gc
 Plugin 'tpope/vim-commentary'
 
-" Visually select increasingly larger regions (using v).
-" Plugin 'terryma/vim-expand-region'
-
 " A git wrapper so awesome it should be illegal.
 Plugin 'tpope/vim-fugitive'
-
-" Syntax highlighting, matching rules and mappings for Markdown.
-Plugin 'plasticboy/vim-markdown'
 
 " Miscellaneous auto-load Vim scripts (required by vim-session).
 Plugin 'xolox/vim-misc'
@@ -169,7 +194,8 @@ Plugin 'xolox/vim-misc'
 " Vim/Ruby Configuration Files.
 " (completion seems to work even without this and vim-rails)
 " (takes care of syntax highlighting for erb files, among other things)
-Plugin 'vim-ruby/vim-ruby'
+" (included in vim-polyglot)
+" Plugin 'vim-ruby/vim-ruby'
 
 " Ruby on Rails power tools.
 Plugin 'tpope/vim-rails'
@@ -183,9 +209,8 @@ Plugin 'xolox/vim-session'
 "   Running commands, or previous searches and commands
 " with a minimal number of keystrokes.
 " Plugin 'wincent/command-t'
-" TODO: re-add this
 
-" All aboud "surroundings": parentheses, brackets, quotes, XML tags, and more.
+" All about "surroundings": parentheses, brackets, quotes, XML tags, and more.
 " - cs<old_surrounding><new_surrounding> to change surrounding
 " - ds<surrounding> to delete the surrounding
 " - ys<text_object><surrounding> to add surrounding to text object
@@ -196,6 +221,16 @@ Plugin 'tpope/vim-surround'
 " Make `.` work for tpope plugins (surround, unimpaired, commentary, and more).
 Plugin 'tpope/vim-repeat'
 
+" Pairs of handy bracket mappings
+" - [q / ]q: go to previous/next quickfix entry
+" - [Q / ]Q: go to first/last quickfix entry
+" - [e / ]e: bubble line up/down
+" - [<space> / ]<space>: insert blank line above/below
+Plugin 'tpope/vim-unimpaired'
+
+" Vim plugin, insert or delete brackets, parens, quotes in pair
+" Plugin 'jiangmiao/auto-pairs'
+
 " Text objects for entire buffer ie/ae.
 " Plugin 'kana/vim-textobj-entire'
 
@@ -204,8 +239,11 @@ Plugin 'tpope/vim-repeat'
 
 " Text objects for the current line.
 " Plugin 'kana/vim-textobj-line'
+" omap il <Plug>(textobj-line-i)
+" omap al <Plug>(textobj-line-a)
 
 " Text object for ruby blocks.
+" (use 'ir' & 'ar' for inner and outer rubyblock)
 " Plugin 'nelstrom/vim-textobj-rubyblock'
 
 " Create your own text objects (required by other plugins).
@@ -219,6 +257,10 @@ Plugin 'christoomey/vim-tmux-navigator'
 
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 Plugin 'tpope/vim-endwise'
+
+" Closes brackets. Perfect companion to vim-endwise.
+" Basically, a more conservative version of auto-pairs that only works when you press Enter.
+Plugin 'rstacruz/vim-closer'
 
 " Configure tab labels within Terminal Vim with a very succinct output.
 Plugin 'mkitt/tabline.vim'
@@ -247,11 +289,8 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'nelstrom/vim-visual-star-search'
 
 " Toggles between relative and absolute line numbers automatically
-"   <c-n> to toggle between relative and absolute numbers
-"   `let g:UseNumberToggleTrigger=0` if you want to disable the toggle shortcut
-"   `let g:NumberToggleTrigger="..."` to change the trigger to ...
-Plugin 'jeffkreeftmeijer/vim-numbertoggle'
-let g:UseNumberToggleTrigger=0
+" Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+" I've got a shortcut to turn relativenumber on/off.
 
 " A Vim plugin for indent-level based motion
 "   [- : Move to previous line of lesser indent than the current line.
@@ -265,18 +304,18 @@ let g:UseNumberToggleTrigger=0
 Plugin 'jeetsukumaran/vim-indentwise'
 
 " Use <c-a>/<c-x> to increment dates, times, and more
-Plugin 'tpope/vim-speeddating'
+" Plugin 'tpope/vim-speeddating'
 
 " Vim plugin that defines a new text object representing lines of code
 " at the same indent level.
-Plugin 'michaeljsmith/vim-indent-object'
+" Plugin 'michaeljsmith/vim-indent-object'
 
 " This plugin provides a text-object 'a' (argument).
 " You can d(elete), c(hange), v(select)... an argument or inner argument
 " in familiar ways.
 " That is, such as 'daa'(delete-an-argument) 'cia'(change-inner-argument)
 " 'via'(select-inner-argument).
-Plugin 'vim-scripts/argtextobj.vim'
+" Plugin 'vim-scripts/argtextobj.vim'
 
 " A vim script to provide CamelCase motion through words
 "   I'll use `,w` `,e` `,ge` `,b` to move across CamelCase/snake_case words
@@ -294,6 +333,166 @@ Plugin 'vim-scripts/ReplaceWithRegister'
 "   use `:RangerWorkingDirectory` to open ranger in the current workspace
 "     (current workspace is the directory vim is currently `cd`ed into)
 Plugin 'francoiscabrol/ranger.vim'
+
+" Provide easy code formatting in Vim by integrating existing code formatters.
+" TODO: check
+" Plugin 'Chiel92/vim-autoformat'
+
+" A Vim plug-in that calculates the Flesch-Kincaid readability index per line.
+" Dependencies:
+" Plug-in requires the odyssey ruby library for calculating the index.
+" TODO: check
+" Plugin 'pondrejk/vim-readability'
+
+" Distraction-free writing in Vim.
+" Best served with limelight.vim.
+" TODO: check
+" Plugin 'junegunn/goyo.vim'
+
+" Hyperfocus-writing in Vim.
+" Best served with Goyo.vim. Works on 256-color terminal or on GVim.
+" TODO: check
+" Plugin 'junegunn/limelight.vim'
+
+
+" --
+" open ranger instead of netrw when opening a directory
+let g:ranger_replace_netrw = 1
+" --
+" don't add default shortcuts
+let g:ranger_map_keys = 0
+" --
+" shortcut to open ranger
+nnoremap <leader>f :Ranger<cr>
+nnoremap <leader>F :RangerNewTab<cr>
+
+" Unobtrusive scratch window. Inspired by scratch.vim, enhanced.
+" - `:Scratch` opens a scratch buffer in a new window (by default using the 
+"   top 20% of the screen, configurable via g:scratch_height and 
+"   g:scratch_top). The window automatically closes when inactive (and its 
+"   contents will be available the next time it is opened).
+" - `gs` in normal mode opens the scratch window and enters insert mode. The 
+"   scratch window closes when you leave insert mode. This is especially 
+"   useful for quick notes.
+" - `gs` in visual mode pastes the current selection (character-wise, line-wise 
+"   or block-wise) into the scratch buffer.
+" - Both above mappings have a gS variant that clears the scratch buffer 
+"   before opening it.
+Plugin 'mtth/scratch.vim'
+
+" A bundle of fzf-based commands and mappings extracted from junegunn's .vimrc
+" (fzf installed via homebrew)
+Plugin 'junegunn/fzf.vim'
+
+" TODO: make ctrl-d close the selected buffer in fzf-buffer-list
+" let g:fzf_action = {
+"   \ 'ctrl-d': function(<some-function-that-takes-fzf-result-lines-and-deletes-buffers>),
+"   \ 'ctrl-t': 'tab split',
+"   \ 'ctrl-x': 'split',
+"   \ 'ctrl-v': 'vsplit' }
+
+" Delete all the buffers except for the current one.
+Plugin 'schickling/vim-bufonly'
+
+" A collection of language packs for Vim.
+" - It won't affect your startup time, as scripts are loaded only on demand*.
+" - It installs and updates 100+ times faster than 100+ packages it consist of.
+" - Solid syntax and indentation support. Only the best language packs.
+Plugin 'sheerun/vim-polyglot'
+
+" React JSX syntax highlighting and indenting for vim.
+" Plugin 'mxw/vim-jsx'
+
+" [Vim script] React JSX syntax pretty highlighting for vim.
+Plugin 'maxmellon/vim-jsx-pretty'
+let g:vim_jsx_pretty_colorful_config = 1
+
+" Auto close (X)HTML tags
+" Usage:
+" `<table` -> (press ">") -> `<table></table>` ->
+"       (press ">" again) -> cursor placed on new line between the tags
+" NOTE: Unfortunately this doesn't work with ".erb" files..
+" Plugin 'alvan/vim-closetag'
+
+" A vim plugin to perform diffs on blocks of code
+" - performs diffs within the same file
+" - usage:
+"   - enter visual line mode, select some lines, type :Linediff,
+"     select the 2nd block of lines, and type :Linediff again
+"     type :LinediffReset to exit
+"   - when on a merge conflict, type :LinediffMerge
+"   - when viewing diffs:
+"     - `]c`: (next difference)
+"     - `[c`: (previous difference)
+"     - `do`: (diff obtain)
+"     - `dp`: (diff put)
+Plugin 'AndrewRadev/linediff.vim'
+
+" A smart, fast, simple, and reliable keyword completion replacement for Vim
+" (works with supertab)
+" Plugin 'szw/vim-kompleter.git'
+
+" A super simple, super minimal, super light-weight tab-completion plugin for Vim.
+" Plugin 'ajh17/vimcompletesme'
+
+" Provides insert mode auto-completion for quotes, parens, brackets, etc
+" Plugin 'Raimondi/delimitMate'
+
+" Emoji in Vim
+Plugin 'junegunn/vim-emoji'
+
+" Brings physics-based smooth scrolling to the Vim world!
+" Plugin 'yuttie/comfortable-motion.vim'
+
+" Peekaboo will show you the contents of the registers on the sidebar when
+" you hit `"` or `@` in normal mode or <CTRL-R> in insert mode. The sidebar
+" is automatically closed on subsequent key strokes.
+" You can toggle fullscreen mode by pressing spacebar.
+" Plugin 'junegunn/vim-peekaboo'
+
+" Run your favorite search tool (ack) from Vim, with an enhanced results list.
+" - usage: `:Ack [options] {pattern} [{directories}]`
+" TODO: check (from papanikge)
+" Plugin 'mileszs/ack.vim'
+
+" This plugin automatically adjusts 'shiftwidth' and 'expandtab' heuristically 
+" based on the current file.
+" TODO: check (from papanikge)
+" Plugin 'tpope/vim-sleuth'
+
+" Ghetto HTML/XML mappings - Enhances surround.vim with `<% %>` etc
+" TODO: check (from papanikge)
+" Plugin 'tpope/vim-ragtag'
+
+" Better Rainbow Parentheses
+" TODO: check (from papanikge)
+" Plugin 'kien/rainbow_parentheses.vim'
+
+" The ultimate undo history visualizer for VIM
+" TODO: check (from papanikge)
+Plugin 'mbbill/undotree' ", { 'on': 'UndotreeToggle' } TODO: use this with Plug
+
+" A REST console for Vim.
+" TODO: check (from papanikge)
+" Plugin 'diepm/vim-rest-console' ", { 'for': 'rest' }
+
+" Vastly improved Javascript indentation and syntax support in Vim.
+" Plugin 'pangloss/vim-javascript'
+
+" Do a tig in your vim
+" usage:
+" - `:Tig`
+" - `:Tig show`
+" - `:Tig!`: show commit log of current file
+Plugin 'codeindulgence/vim-tig'
+command! Tgi :Tig
+
+" A simple tool for presenting slides in vim based on text files.
+" Plugin 'sotte/presenting.vim'
+
+" Preview colors in source code while editing
+" Plugin 'ap/vim-css-color'
+
 
 
 " all plugins must be added before the following line (required)
@@ -331,19 +530,6 @@ command! PrintInputLang if &keymap=="" |
                       \   echo "lang=greek" |
                       \ endif
 
-"
-" ########                     ########
-" ######## New, Uncategorized  ########
-" ########                     ########
-"
-" always show line numbers
-"   when used in combination with relativenumber, it replaces 0
-"   in the current line with the actual line number
-set number
-" show relative numbers
-set relativenumber
-" make every wrapped line continue visually indented
-set breakindent
 
 "
 " ########           ########
@@ -368,14 +554,11 @@ set ttimeoutlen=0
 "set noesckeys
 
 
-
 "
 " ########                     ########
 " ######## New, Uncategorized  ########
 " ########                     ########
 "
-" make copy and paste (outside vim) play well with vim's yank, paste etc
-set clipboard=unnamed
 
 " make '§' the <leader> key
 " (workaround because space won't show up in the showcmd window)
@@ -383,6 +566,25 @@ let mapleader = '§'
 " but space will be the actual <leader>
 nmap <space> <leader>
 vmap <space> <leader>
+
+" always show line numbers
+"   when used in combination with relativenumber, it replaces 0
+"   in the current line with the actual line number
+" set number
+" show relative numbers
+" set relativenumber
+
+" Toggle relativenumber on/off:
+nnoremap <silent> <C-m> :set number!<cr>:set relativenumber!<cr>
+
+" make every wrapped line continue visually indented
+set breakindent
+
+" enable use of fzf (fuzzy finder)
+set rtp+=/usr/local/opt/fzf
+
+" make copy and paste (outside vim) play well with vim's yank, paste etc
+set clipboard=unnamed
 
 " when (de)indenting don't lose selection after moving block
 vnoremap < <gv
@@ -399,18 +601,18 @@ command! ToggleBackground if &background=='dark' |
                         \   let &background="dark" |
                         \ endif
 
-" star-search for non-exact match
-nnoremap <leader>* g*
-nnoremap <leader>8 g*
+" old star-search functionality (adds word-breaks around the search)
+nnoremap <leader>* *
+" star-search without word-breaks
+nnoremap * g*
 
 " list all buffers and get ready to switch to one of them
-nnoremap <leader>b :ls<cr>:b
-nnoremap <leader>v :CtrlPBuffer<cr>
+nnoremap <leader>b :Buffers<cr>
 
 " if a file has been detected to be changed outside vim reread it
 " (throws an error if the file was deleted outside vim)
 " (use :checktime to see if the file was changed outside vim)
-"set autoread
+set autoread
 
 " open file under cursor in new tab
 nnoremap <leader>gf <c-w>gf
@@ -450,33 +652,6 @@ vnoremap <leader>7 :tabn 7<cr>
 " jump to 1st open window with buffer when switching buffers
 set switchbuf=useopen,usetab
 
-" TAB in insert mode autocompletes when in the middle of a word
-" inoremap <expr> <tab> SmartInsertTab()
-" function! SmartInsertTab()
-"   if PreviousCharIsWhitespaceOrStartLine()
-"     " return a tab character (respects expandtab etc)
-"     return "\<tab>"
-"   else
-"     " open completion window and cycle through options
-"     " (alternatively, "\<c-x>\<c-n>" will insert the completion and move on)
-"     return "\<c-n>"
-"   endif
-" endfunction
-
-" function! PreviousCharIsWhitespaceOrStartLine()
-"   " =~# is always-case-sensitive regexp match
-"   " (avoid =~ because it depends on 'ignorecase')
-"   if GetPreviousChar() =~# '^$\|\s'
-"     return 1
-"   else
-"     return 0
-"   endif
-" endfunction
-
-" function! GetPreviousChar()
-"   return matchstr(getline('.'), '\%' . (col('.') - 1) . 'c.')
-" endfunction
-
 " fix "crontab -e" error "crontab: temp file must be edited in place"
 " (from: http://superuser.com/a/750528/128028)
 " coupled with an alias for crontab
@@ -489,10 +664,26 @@ endif
 let $BASH_ENV="~/.bash_profile_sections/aliases.bash"
 
 " git grep and paste results in buffer
-nnoremap <leader>g :r<space>!gg<space>
+nnoremap <leader>gg :read<space>!gg<space>
 
 " tab in normal mode indents
 " nnoremap <tab> a<tab><esc>
+
+" choose a colorscheme
+colorscheme solarized
+" colorscheme base16-default-dark
+" set the background
+set background=dark
+
+" persistent undo (after quitting)
+" (maintain undo history between sessions)
+set undofile
+" By default vim will write undo history files in the same directory
+" as the file you edit. Let's create a dedicated directory instead.
+"
+" TODO: It would be better to have this under ~/.vim/undodir, but my
+"       current setup makes that not ideal.
+set undodir=~/.vim_undodir
 
 
 "
@@ -500,8 +691,10 @@ nnoremap <leader>g :r<space>!gg<space>
 " ######## Automatic Indentation & TAB ########
 " ########                             ########
 "
-set autoindent
-set smartindent      " try to guess the new line's indent level
+" set autoindent
+" `set smartindent` strips indent when you start a line with #.
+" This is very frustrating in python. Just rely on `filetype autoindent on`.
+" set smartindent      " try to guess the new line's indent level - PROBLEM WITH LEADING #
 set shiftwidth=2     " shift (with >> or <<) width = 2 spaces
 set smarttab         " TAB at start of line will indent
 set tabstop=2        " make TAB width = 2 spaces
@@ -525,15 +718,6 @@ set showmatch        " briefly jump to matching parenthese/bracket/brace
 " ######## Custom Commands ########
 " ########                 ########
 "
-" -- NerdTree
-"if !exists("g:user_have_set_nerdtree_shortcut_commands")
-"  let g:user_have_set_nerdtree_shortcut_commands = 1
-com! NO NERDTree
-com! NT NERDTreeToggle
-com! NN NERDTreeToggle
-com! NF NERDTreeFocus
-"com! NOO NERDTree | wincmd l
-"endif
 " -- sessions
 com! -nargs=? -bang
        \ -complete=customlist,xolox#session#complete_names_with_suggestions
@@ -554,20 +738,37 @@ cnoreabbrev h tab<space>help
 "cnoreabbrev e CtrlP<cr>
 " -- (interactively) remove trailing whitespace
 com! RemoveTrailingWhiteSpace :%s/\s\+$//c | :nohlsearch | :redraw
-" -- fold html (using xml's folding rules)
-com! FoldHTML :set filetype=xml | :set foldmethod=syntax | :set foldlevel=0
 " -- reload .vimrc
-com! Reload :source ~/.vimrc
+com! Reload source ~/.vimrc
 " -- open .vimrc for editing (in new tab)
-com! Config :tabe ~/.vimrc
-com! RC :e ~/.vimrc
-
-" -- close (wipeout) all hidden buffers (i.e. buffers not open in any window)
-com! WipeoutHiddenBuffers :call WipeoutHiddenBuffersFunction()
-com! Bdhidden :call WipeoutHiddenBuffersFunction()
+com! Config tabe ~/.vimrc
+com! RC e ~/.vimrc
 
 " -- refresh all windows (aka panes)
-com! RefreshWindows :tabdo windo edit
+com! RefreshWindows tabdo windo edit
+
+" -- close all hidden buffers (i.e. buffers not open in any window)
+com! CloseHiddenBuffers call s:CloseHiddenBuffers()
+com! Closehiddenbuffers call s:CloseHiddenBuffers()
+
+" -- tig show commit under the cursor
+com! TigShow silent execute "!tig show <cword>" | redraw!
+
+" -- make current buffer into a scratch buffer
+com! Scratchify setlocal buftype=nofile noswapfile
+com! ScratchNew new | Scratchify
+com! ScratchVNew vnew | Scratchify
+com! ScratchTabNew tabnew | Scratchify
+
+" -- open local todos file
+com! Todo edit todo.md
+
+" -- tidy an html file (break lines and indent)
+com! TidyHtml :%!tidy -q -i --show-errors 0
+
+com! -nargs=1 -complete=customlist,s:EmojiCompleteCmdLineArg EmojiInsert call s:EmojiInsertFunc(<f-args>)
+
+com! OpenOnGithub execute ('!open "'.CurrentRepoGithubURL().'"')
 
 
 
@@ -575,38 +776,43 @@ com! RefreshWindows :tabdo windo edit
 " ######## Functions  ########
 "
 
-" TODO: fix this - doesn't work as expected when there are many buffers
-function! WipeoutHiddenBuffersFunction()
-  " list of *all* buffer numbers
-  let l:buffers = range(1, bufnr('$'))
 
-  " what tab page are we in?
-  let l:currentTab = tabpagenr()
-  try
-    " go through all tab pages
-    let l:tab = 0
-    while l:tab < tabpagenr('$')
-      let l:tab += 1
+function! CurrentRepoGithubURL()
+  return 'https://github.skroutz.gr/skroutz/yogurt/blob/master/'.expand('%').'\#L'.line('.')
+endfunction
 
-      " go through all windows
-      let l:win = 0
-      while l:win < winnr('$')
-        let l:win += 1
-        " whatever buffer is in this window in this tab, remove it from
-        " l:buffers list
-        let l:thisbuf = winbufnr(l:win)
-        call remove(l:buffers, index(l:buffers, l:thisbuf))
-      endwhile
-    endwhile
 
-    " if there are any buffers left, delete them
-    if len(l:buffers)
-      execute 'bwipeout' join(l:buffers)
+" Close all hidden buffers in Vim
+" (copied from https://gist.github.com/skanev/1068214)
+function! s:CloseHiddenBuffers()
+  let open_buffers = []
+
+  for i in range(tabpagenr('$'))
+    call extend(open_buffers, tabpagebuflist(i + 1))
+  endfor
+
+  for num in range(1, bufnr("$") + 1)
+    if buflisted(num) && index(open_buffers, num) == -1
+      exec "bdelete ".num
     endif
-  finally
-    " go back to our original tab page
-    execute 'tabnext' l:currentTab
-  endtry
+  endfor
+endfunction
+
+
+function! s:EmojiInsertFunc(emoji)
+  exec 'normal i' . emoji#for(a:emoji)
+endfunction
+
+
+function! s:EmojiCompleteCmdLineArg(ArgLead, CmdLine, CursorPos)
+  let l:completions = emoji#complete(0, a:ArgLead)
+  let l:result = []
+
+  for l:completion in l:completions
+    call add(l:result, split(l:completion['word'], ':')[0])
+  endfor
+
+  return l:result
 endfunction
 
 
@@ -621,8 +827,6 @@ endfunction
 "set foldmethod=manual
 " ++ groups of lines with the same indent form a fold
 "set foldmethod=indent
-" ++ enable folds
-"set foldenable
 " ++ (fdl) display x first levels of folds
 "set foldlevel=x
 
@@ -630,50 +834,26 @@ endfunction
 set foldmethod=syntax
 " -- deepest fold is x levels
 set foldnestmax=8
-" -- don't fold by default
+" -- don't fold by default (so that the file isn't folded when you first open it)
 set nofoldenable
+" -- enable folding of vimscript files
+let g:vimsyn_folding = 'af'  " fold only augroups & functions
 " -- (un)set fillchars
-set fillchars="fold: "
+" set fillchars="fold: "
 
-" -- set what text to display on a folded line
-function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
 
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
-
-    " expand tabs into spaces
-    let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    " --
-    " original:
-    "let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    "return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-    " --
-    " alternate 1:
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . repeat(" ",fillcharcount) . '…' . foldedlinecount . ' '
-    " --
-    " alternate 2:
-    "let fillcharcount = windowwidth - len(line) - 3
-    "let otherfillcharcount = 3 - len(foldedlinecount)
-    "return line . repeat(" ",fillcharcount) . '+ ' .
-    "       \ repeat(" ",otherfillcharcount) . foldedlinecount . ' '
-endfunction " }}}
-set foldtext=MyFoldText()
+" -- recursively open fold and subfolds, or non-recursively close fold
+command! BetterToggleFold silent
+  \ if IsFolded() | foldo! | else | foldc | endif
+command! BetterZA BetterToggleFold
 
 " -- is the current line folded?
 function! IsFolded()
   if foldclosed(line('.')) > -1 | return 1 | else | return 0 | endif
 endfunction
 
-" -- recursively open fold and subfolds, or non-recursively close fold
-com! RecursiveOpenOrNonRecursiveCloseFold silent
-  \ if IsFolded() | foldo! | else | foldc | endif
-
+" -- fold html (using xml's folding rules)
+command! FoldHTML :set filetype=xml | :set foldmethod=syntax | :set foldlevel=0
 
 
 "
@@ -691,11 +871,11 @@ vnoremap G G$
 " ++ bind <leader>u to do nothing
 nnoremap <leader>u <nop>
 " ++ bind <leader>up to save changes
-nnoremap <leader>up :up<cr>
+nnoremap <silent> <leader>up :update<cr>
 " ++ easy force quit with error
 " nnoremap <leader>q :cq!<cr>
 " ++ easy save and quit
-nnoremap <leader>x :x<cr>
+" nnoremap <silent> <leader>x :exit<cr>
 " -
 " go to start of indentation (i.e. first non-blank char of line)
 nnoremap <leader>0 ^
@@ -712,32 +892,28 @@ nnoremap <silent> <c-n> :nohlsearch<cr>:redraw<cr>
 " go into command mode
 " noremap <leader>; :
 noremap ; :
-noremap : ;
+" noremap : ;
+" tnoremap ; :   " no way to type ; if we use this
 " -
 " toggle current fold to open/close
 nnoremap <leader>a za
-nnoremap <leader>A :RecursiveOpenOrNonRecursiveCloseFold<cr>
+nnoremap <leader>A :BetterZA<cr>
 vnoremap <leader>a zf
 " -
-" navigate split windows easily:
-" (not needed if you use vim-tmux-navigator)
-" nnoremap <silent> <c-h> :wincmd<space>h<cr>
-" nnoremap <silent> <c-j> :wincmd<space>j<cr>
-" nnoremap <silent> <c-k> :wincmd<space>k<cr>
-" nnoremap <silent> <c-l> :wincmd<space>l<cr>
+" open enough folds to show the current line
+nnoremap <silent> <leader>x zx
 " -
 " navigate split windows (plus auto maximize/minimize vertically):
 nnoremap <silent> <leader>j :wincmd<space>j<cr>:wincmd<space>_<cr>
 nnoremap <silent> <leader>k :wincmd<space>k<cr>:wincmd<space>_<cr>
 nnoremap <silent> <leader>h :wincmd<space>h<cr>:wincmd<space>_<cr>
 nnoremap <silent> <leader>l :wincmd<space>l<cr>:wincmd<space>_<cr>
-" nnoremap <silent> <leader>h :wincmd<space>h<cr>:wincmd<space>\|<cr>
-" nnoremap <silent> <leader>l :wincmd<space>l<cr>:wincmd<space>\|<cr>
 nnoremap <silent> <leader>[ :wincmd<space>p<cr>
 " -
 " navigate tabs
 nnoremap <silent> <leader>p :tabprevious<cr>
 nnoremap <silent> <leader>n :tabnext<cr>
+tnoremap <silent> <leader>n :tabnext<cr>
 "(remember <c-\> takes you to the previous pane
 " -
 " navigate buffers
@@ -745,43 +921,35 @@ nnoremap <silent> <leader>J :bnext<cr>
 nnoremap <silent> <leader>K :bprevious<cr>
 " -
 " resize split windows easily:
-nnoremap <silent> <leader>=  <c-w>=
+nnoremap <silent> <leader>= <c-w>=
 nnoremap <silent> <leader>\ <c-w>\|
-nnoremap <silent> <leader>-  <c-w>_
+nnoremap <silent> <leader>- <c-w>_
+" -
+" set minimum height & width of split window:
+set winminheight=0
+set winminwidth=0
 " -
 " insert stuff from normal mode (without moving):
 " empty line above
-nnoremap <leader>O  mpO<esc>0D`p
+nnoremap <leader>O mpO<esc>0D`p
 " empty line below
-nnoremap <leader>o  mpo<esc>0D`p
-" comma after the previous word - you can just ge/gE and append what you want
-"nnoremap <leader>,  mpgEa,<esc>`pl
-" dot after the previous word
-"nnoremap <leader>.  mpgEa.<esc>`pl
-" space
-"nnoremap <space>    i<space><esc>l
-" tab
-"nnoremap <tab>      i<tab><esc>l
-" line break
-"nnoremap <cr>       i<cr><esc>
-" delete a character
-"nnoremap <bs>       X
+nnoremap <leader>o mpo<esc>0D`p
 " -
-nnoremap <leader>t  :tab
+" nnoremap <leader>t :tab
 " nnoremap <leader>e  :e<space>
-nnoremap <leader>e  :CommandT<cr>
-nnoremap <leader>T  :wincmd<space>T<cr>
-nnoremap <leader>s  :wincmd<space>s<cr>
-nnoremap <leader>v  :wincmd<space>v<cr>
+nnoremap <leader>e :FZF<cr>
+nnoremap <leader>T :wincmd<space>T<cr>
+nnoremap <leader>s :wincmd<space>s<cr>
+nnoremap <leader>v :wincmd<space>v<cr>
+" force a screen refresh
+noremap <leader>r :redraw!<cr>
 " -
 " other:
 " redo syntax highlighting
-nnoremap <leader>S  :syntax sync fromstart<cr>
+nnoremap <leader>S :syntax sync fromstart<cr>
 " -
-" plugins:
-" show current file's directory in NERDTree
-" nnoremap <leader>f  :NERDTreeFind<cr>
-" TODO: I think this conflicts with some vim-rails mapping
+" open Scratch window in normal mode
+nnoremap <leader>gs :Scratch<cr>
 
 
 
@@ -791,9 +959,7 @@ nnoremap <leader>S  :syntax sync fromstart<cr>
 " ########       ########
 "
 set formatoptions+=w  " don't break words when wrapping lines
-"set textwidth=80      " wrap text after xth column (inserts newline)
-"set colorcolumn=80    " color xth column
-let &colorcolumn=join(range(81,999),',')    " color from xth column onwards
+" let &colorcolumn=join(range(81,999),',')    " color from xth column onwards
 " pressing <F4> while in insert mode will toggle paste-mode
 " (i.e. no autoindent)
 set pastetoggle=<F4>
@@ -821,6 +987,7 @@ set display+=lastline
 if &history < 100
   set history=100
 endif
+
 " in list mode ('set list' command), chars to show instead of tab etc
 " set listchars=eol:¬,tab:^T
 " set listchars=eol:¬,tab:^T,trail:.
@@ -841,7 +1008,7 @@ endif
 "  set backup         " keep a backup file
 "endif
 if has('mouse')
-  set mouse=a        " enable mouse
+  set mouse=a         " enable mouse (in all modes)
 endif
 " -
 " don't highlight the line the cursor is on
@@ -857,6 +1024,9 @@ set wildmode=longest,list
 " stop vim from scrolling the panes when splitting
 " nnoremap <c-w>s Hmx``<space>\|:split<cr>`xzt``<c-w>k`xzt``<c-w>j
 nnoremap <c-w>s Hmx``:split<cr>`xzt``<c-w>k`xzt``<c-w>j
+" -
+" Don't make windows the same size after splitting or closing a window.
+set noequalalways
 
 
 
@@ -865,6 +1035,37 @@ nnoremap <c-w>s Hmx``:split<cr>`xzt``<c-w>k`xzt``<c-w>j
 " ######## Per Filetype Commands ########
 " ########                       ########
 "
+
+" xml/xsd (breaks jsx highlighting after some point)
+" let g:xml_syntax_folding=1
+
+augroup filetypefolding
+  " clear all autocommands for this group when the group is redefined
+  autocmd!
+
+  " autocmd FileType python setlocal foldcolumn=2
+  autocmd FileType python setlocal foldmethod=indent
+
+  " :FM marks folds using indent folding and then switches to manual folding
+  autocmd FileType python command! -buffer FM set fdm=indent | set fen |
+                                 \ %foldo! | set fdm=manual
+  " press<f5> when inside a docstring to manually fold it
+  autocmd FileType python nnoremap <buffer> <f5> l?"""<cr>vNzf:nohlsearch<cr>
+  " mark folds and switch to manual
+  autocmd FileType python silent! FM
+
+  autocmd FileType xml setlocal foldmethod=syntax
+  autocmd FileType xsd setlocal foldmethod=syntax
+
+  " autocmd FileType java setlocal foldcolumn=2
+  " autocmd FileType c setlocal foldcolumn=2
+  " autocmd FileType cpp setlocal foldcolumn=2
+
+  autocmd BufNewFile,BufReadPost *.coffee setlocal foldmethod=indent
+  autocmd BufNewFile,BufReadPost *.coffee.erb setlocal foldmethod=indent
+augroup END
+
+
 augroup filetypespecific
   " see which autocommands are running in real-time
   "set verbose=9
@@ -873,8 +1074,6 @@ augroup filetypespecific
   autocmd!
 
   " auto reload .vimrc
-  " TODO: re-add this (temporarily removed the bang)
-  " autocmd! bufwritepost .vimrc source %
   autocmd bufwritepost .vimrc source %
 
   " -- vim help:
@@ -892,45 +1091,23 @@ augroup filetypespecific
   " autocmd FileType python inoremap <cr> <cr>x<bs>
   " autocmd FileType python nnoremap o ox<bs>
   " autocmd FileType python nnoremap O Ox<bs>
-  autocmd FileType python setlocal foldcolumn=2
-  autocmd FileType python setlocal foldmethod=indent
-  autocmd FileType python setlocal listchars=trail:.
-  autocmd FileType python setlocal list
-  " TEMP: TODO:
-  " :FM marks folds using indent folding and then switches to manual folding
-  autocmd FileType python command! -buffer FM set fdm=indent | set fen |
-                                 \ %foldo! | set fdm=manual
-  " TEMP: TODO:
-  " press<f5> when inside a docstring to manually fold it
-  autocmd FileType python nnoremap <buffer> <f5> l?"""<cr>vNzf:nohlsearch<cr>
-  " mark folds and switch to manual
-  autocmd FileType python silent! FM
+  " autocmd FileType python setlocal listchars=trail:.
+  " autocmd FileType python setlocal list
+  " override highlight color for import statements
+  autocmd FileType python highlight link pythonImport Define
   " -- java:
   autocmd FileType java setlocal tabstop=3
   autocmd FileType java setlocal shiftwidth=3
   autocmd FileType java setlocal softtabstop=3
-  autocmd FileType java setlocal foldcolumn=2
-  " -- C:
-  autocmd FileType c setlocal foldcolumn=2
-  " -- C++:
-  autocmd FileType cpp setlocal foldcolumn=2
   " -- eruby:
   " autocmd FileType eruby setlocal foldmethod=manual
   " autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
   " autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
   " autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-  autocmd FileType xml setlocal foldmethod=syntax
-  autocmd FileType xsd setlocal foldmethod=syntax
-  " -- javascript (js)
-  " (requires vim-javascript-syntax plugin)
-  autocmd FileType javascript call JavaScriptFold()
-  " -- coffeescript (coffee)
-  " enable folding
-  autocmd BufNewFile,BufReadPost *.coffee setlocal foldmethod=indent
+  " --
+  " recognize dashes as part of keywords (e.g. in `<my-component>`)
+  autocmd FileType lisp,clojure,html,xml,xhtml,haml,eruby,css,scss,sass setlocal iskeyword+=-
 augroup END
-
-" -- xml/xsd:
-let g:xml_syntax_folding=1
 
 
 "
@@ -938,11 +1115,14 @@ let g:xml_syntax_folding=1
 " ######## Recognize FileTypes ########
 " ########                     ########
 "
-" -- octave:
 augroup filetypedetect
+  " -
+  " octave:
   autocmd! BufRead,BufNewFile *.m,*.oct setfiletype octave
-  " NOTE: I think this shouldn't have the bang (!)
-  "  IIUC the bang deletes all autocmds of this augroup
+
+  " -
+  " .es6 (javascript es6 files):
+  autocmd! BufRead,BufNewFile *.es6 setfiletype javascript
 augroup END
 
 
@@ -952,44 +1132,6 @@ augroup END
 " ########                   ########
 "
 
-"
-" ######## netrw: ########
-"
-" -- File/directory browser (also supports reading/writing remote files).
-"let g:netrw_liststyle=3       " default (directory) listing style: tree
-"let g:netrw_list_hide='^\.'   " default listing hides files matching this
-"let g:netrw_altv=1            " v places new window and cursor at the right
-"let g:netrw_winsize= 90        " specify initial size of new windows (o, v)
-
-"
-" ######## nerdtree: ########
-"
-" -- Better file/directory browser.
-" -- default open directories using nerdtree instead of netrw
-let g:NERDTreeHijackNetrw=1
-" -- have bookmarks pane open when nerdtree opens
-"let NERDTreeShowBookmarks=1
-" -- open NERDTree when vim starts (and focus it if no files were specified)
-augroup nerdtreeautocmds
-  " remove all autocmds for this group
-  autocmd!
-
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter *
-        \ if argc() == 0 && !exists("s:std_in") && exists("g:open_nerd_tree") |
-        \   NERDTree |
-        \ elseif exists("g:open_nerd_tree") |
-        \   NERDTree | wincmd l |
-        \ endif
-  " -- close vim if the only window left open is a NERDTree
-  autocmd bufenter *
-        \ if winnr("$") == 1 && exists("b:NERDTreeType")
-        \                    && b:NERDTreeType == "primary" |
-        \   q |
-        \ endif
-augroup END
-" -- set NERDTree window size
-let g:NERDTreeWinSize=30
 
 "
 " ######## vim-misc: ########
@@ -1003,12 +1145,12 @@ let g:NERDTreeWinSize=30
 " -- remember:
 " ++ :RestartVim
 " ++ :CloseSession
-" -- save (open) session on quit ('yes', 'no', or 'prompt')
+" -- save session on quit ('yes', 'no', or 'prompt')
 let g:session_autosave='no'
-" -- prompt to load default session if opening with no files (vs 'yes' or 'no')
-let g:session_autoload='prompt'
+" -- prompt to load default session if opening with no files ('prompt'/'yes'/'no')
+let g:session_autoload='no'
 " -- periodically save the session (every x minutes)
-let g:session_autosave_periodic=1
+let g:session_autosave_periodic=0
 " -- make autosave messages less verbose
 let g:session_verbose_messages=0
 " -- on startup prompt about last used session instead of default
@@ -1035,23 +1177,7 @@ let g:session_default_to_last=1
 " -- don't trim trailing whitespace on save
 "let g:pymode_trim_whitespaces = 0
 " -- disable the plugin
-let g:pymode = 0
-
-"
-" ######## syntastic: ########
-"
-" -- detect syntax errors in various languages
-" (you need to have appropriate syntax checkers installed - see :SyntasticInfo)
-" -- select checker to use for javascript files
-let g:syntastic_javascript_checkers = ['gjslint']
-" -- check syntax when opening file
-let g:syntastic_check_on_open = 1
-" -- auto jump to first error (set to 1 to jump to first issue in general)
-let g:syntastic_auto_jump = 2
-" -- use :Errors to open a window of error descriptions
-" -- suppress the 'possibly useless use of % in void context' message in eruby
-let g:syntastic_eruby_ruby_quiet_messages =
-    \ {'regex': 'possibly useless use of % in void context'}
+" let g:pymode = 0
 
 "
 " ######## bufexplorer: ########
@@ -1071,17 +1197,6 @@ let g:syntastic_eruby_ruby_quiet_messages =
 " let g:bufExplorerFindActive=0
 " -- show buffers on(ly?) for the specific tab
 " let g:bufExplorerShowTabBuffer=1
-
-"
-" ######## vim-colors-solarized: ########
-"
-" -- solarized colorscheme
-" -- enable syntax highlighting (done earlier)
-"syntax enable
-" -- switch the colorscheme on
-colorscheme solarized
-" -- set the background
-set background=dark
 
 "
 " ######## vim-bufonly: ########
@@ -1137,7 +1252,7 @@ set background=dark
 "
 " -- configure format of sections
 " section z: minimal percentage, line number, and column number
-let g:airline_section_z = '%p%% %l:%c'
+let g:airline_section_z = '%p%% %l:%v'
 "
 " -- lean & mean status/tabline for vim that's light as air
 " -- display all buffers when there's only one tab open
@@ -1205,36 +1320,6 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
 " -- Targets.vim is a Vim plugin that adds various text objects to give you
 " more targets to operate on. It expands on the idea of simple commands like
 " di' (delete inside the single quotes around the cursor).
-
-"
-" ######## vim-expand-region ########
-"
-" -
-" vim-expand-region is a Vim plugin that allows you to visually select
-" increasingly larger regions of text using the same key combination.
-" -
-" (continuously) press v to select increasingly larger regions of text
-" vmap v <Plug>(expand_region_expand)
-" -
-" shrink selected region
-" vmap <leader>v <Plug>(expand_region_shrink)
-" -
-" extend the global default objects
-" (requires corresponding vim-textobj-... plugins)
-" ++ custom (global) text objects
-" let g:expand_region_custom_text_objects =
-"     \ { 'a]':1, 'ab':1, 'aB':1, 'ii':0, 'ai':0 }
-" ++ let expand_region know about them
-" call expand_region#custom_text_objects(g:expand_region_custom_text_objects)
-" -
-" set/extend the ruby-specific text objects
-" ('im' & 'am' require vim-ruby, and 'ir' & 'ar' require vim-textobj-rubyblock)
-" ++ custom ruby text objects
-" let g:expand_region_custom_text_objects_ruby =
-"     \ { 'im':0, 'am':0, 'ir':0, 'ar':0 }
-" ++ let expand_region know about them (apply only on ruby files)
-" call expand_region#custom_text_objects('ruby',
-"      \ g:expand_region_custom_text_objects_ruby)
 
 "
 " ######## vim-textobj-user ########
@@ -1345,17 +1430,26 @@ let g:used_javascript_libs = 'jquery,requirejs,jasmine,chai,handlebars'
 " let g:indentLine_leadingSpaceChar = '·'
 " let g:indentLine_leadingSpaceChar = '.'
 
+
+" ######## junegunn/vim-emoji ########
+"
+" Set up emoji completion
+" set completefunc=emoji#complete
+
+"
 " ######## supertab ########
 "
-" --
-" make tab navigate the completion menu from top to bottom
-" let g:SuperTabDefaultCompletionType = "<c-n>"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
 " --
 " take context into account when completing
 " (e.g. "/usr/l<tab>" will do filename completion)
 " (e.g. "myvar.t<tab>" will do user completion if available; else omni)
 let g:SuperTabDefaultCompletionType = "context"
+" --
+" fallback completion type if context doesn't find anything
+" make tab navigate the completion menu from top to bottom
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+" use completefunc:
+" let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
 " --
 " improve vim's 'longest' completeopt setting
 let g:SuperTabLongestEnhanced = 1
@@ -1388,32 +1482,85 @@ let g:SuperTabCompleteCase = 'match'
 " --
 " disable autocomplete popup on typing '.' (will still get when hitting <tab>)
 let g:jedi#popup_on_dot = 0
+" --
+" disable mapping for jedi#usages() (shows usages of a name)
+" (because it clashes with my <leader>n mapping)
+let g:jedi#usages_command = ''
 
 " ######## bkad/CamelCaseMotion ########
 "
 " --
 " create the mappings
-" call camelcasemotion#CreateMotionMappings(',')
-" TODO: re-add this
+call camelcasemotion#CreateMotionMappings(',')
 
 " ######## wincent/command-t ########
 "
 " --
 " make <esc> work in terminal vim
-" if &term =~ "xterm" || &term =~ "screen"
-"   let g:CommandTCancelMap = ['<esc>', '<c-c>']
-" endif
-" TODO: re-add this
+if &term =~ "xterm" || &term =~ "screen"
+  let g:CommandTCancelMap = ['<esc>', '<c-c>']
+endif
 
 " ######## francoiscabrol/ranger.vim ########
 "
+
+" ######## mtth/scratch.vim ########
+"
 " --
-" don't add default shortcuts
-let g:ranger_map_keys = 0
+" set scratch window's height
+" (if int it means num of columns - if float it means percentage of window)
+let g:scratch_height = 0.5
+
+" ######## vim-polyglot ########
+"
 " --
-" shortcut to open ranger
-nnoremap <leader>f :Ranger<cr>
-nnoremap <leader>F :RangerNewTab<cr>
+" Individual language packs can be disabled as follows:
+" let g:polyglot_disabled = ['ansible']
+" Disable graphql temporarily to avoid an error when opening js files
+" (g:graphql_javascript_tags not defined or smth)
+let g:polyglot_disabled = ['graphql']
+
+" ######## kompleter ########
+"
+" --
+" Don't replace standard completion mappings `<c-n>/<c-p>` with `<c-x><c-u>`
+let g:kompleter_replace_standard_mappings = 0
+
+" ######## w0rp/ale: ########
+"
+" keep the sign gutter open at all times
+let g:ale_sign_column_always = 1
+
+" Limit which linters to run for specific filetypes:
+" - limit html to 'tidy'
+" - enable linting for text ('proselint') (text linters disabled by default)
+let g:ale_linters = { 'html': ['tidy'], 'text': ['proselint'], 'javascript': ['eslint'], }
+
+" enable airline ale extension
+let g:airline#extensions#ale#enabled = 1
+
+" disable ale for ruby files under yogurt
+" let g:ale_pattern_options = {
+"       \ 'yogurt/.*\.rb': { 'ale_enabled': 0 },
+"       \ 'yogurt/.*\.erb': { 'ale_enabled': 0 },
+"       \ }
+
+" don't underline the segment of the line that has the error/warning
+let g:ale_set_highlights = 0
+
+
+" ######## pangloss/vim-javascript ########
+"
+" Enable syntax highlighting for Flow
+" let g:javascript_plugin_flow = 1
+
+" Enable code folding for javascript based on our syntax file.
+" Please note this can have a dramatic effect on performance.
+augroup javascript_folding
+  autocmd!
+  autocmd FileType javascript setlocal foldmethod=syntax
+augroup END
+
 
 
 
@@ -1426,33 +1573,23 @@ nnoremap <leader>F :RangerNewTab<cr>
 highlight Folded term=bold cterm=bold
 
 
-"
+
 " ########            ########
 " ######## Colors etc ########
 " ########            ########
-"
-" color line numbering dark grey (was orange)
-"highlight LineNr ctermfg=239
-" color folds' background
-"highlight Folded ctermbg=234
-" color folds' foreground (letters)
-"highlight Folded ctermfg=240
-" color fold column
-"highlight FoldColumn ctermbg=234
-" color of the colored (80th) column
-"highlight ColorColumn ctermbg=234
+
+" other highlight groups: LineNR, Folded, FoldColumn
 " default highlighting for SpecialKey and NonText highlight groups
 highlight SpecialKey ctermfg=236 ctermbg=8
 highlight NonText    ctermfg=236 ctermbg=8
-" highlight SpecialKey term=bold cterm=bold ctermfg=11 ctermbg=2
-" highlight NonText    term=bold cterm=bold ctermfg=235 ctermbg=8
-" highlight NonText        term=bold cterm=bold ctermfg=11 gui=bold guifg=Blue
-" color foreground after ColorColumn magenta and background normal
-" highlight ColorColumn ctermfg=5 ctermbg=8
+
 " color background after ColorColumn normal
 highlight ColorColumn ctermbg=0
 
-" color of sign column (i.e. the column on the left that points out errors)
-highlight clear SignColumn
-" highlight SignColumn ctermbg=0
+" clear color of sign column (i.e. the column on the left that points out errors)
+" highlight clear SignColumn
 
+" set color of sign column
+highlight SignColumn ctermbg=0
+
+com! -range FormatJSON <count>!python -m json.tool
