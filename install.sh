@@ -13,5 +13,6 @@ function link_to_home() {
 }
 
 link_to_home '.config'
+link_to_home '.tmux.conf'
 link_to_home '.vimrc'
 link_to_home '.zshrc'
