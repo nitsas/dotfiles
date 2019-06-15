@@ -92,7 +92,39 @@ ZSH_THEME_RANDOM_CANDIDATES=(
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+  asdf
+  # brew
+  bundler
+  # coffee
+  # common-aliases
+  # compleat
+  docker
+  # encode64
+  extract
+  fzf
+  gem
+  git
+  # gitfast
+  httpie
+  # history
+  # jsontools
+  # mix
+  # node
+  npm
+  pip
+  pyenv
+  python
+  # rails
+  # redis-cli
+  # ruby
+  # tmux
+  # tmuxinator
+  urltools
+  vi-mode
+  yarn
+  z
+)
 
 source $ZSH/oh-my-zsh.sh
 
