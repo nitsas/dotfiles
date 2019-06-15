@@ -74,3 +74,14 @@ class show_in_finder(Command):
         script = "osascript -e '{0}' -e '{1}'".format(reveal_script, activate_script)
         self.fm.notify(script)
         subprocess.check_output(["osascript", "-e", reveal_script, "-e", activate_script])
+
+
+class config(Command):
+    """
+    :config
+
+    Edit my rc.conf and ranger's default one in separate tabs
+    """
+
+    def execute(self):
+        self.fm.edit('~/.config/ranger/rc.conf')
