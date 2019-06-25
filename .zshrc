@@ -128,6 +128,9 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Make sure autocompletion works for aliases
+setopt no_complete_aliases
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
