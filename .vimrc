@@ -732,6 +732,8 @@ com! -nargs=? -bang CS CloseSession<bang> <args>
 " Don't save folds in sessions.
 " (to avoid errors for invalid fold ranges on session load)
 set sessionoptions-=folds
+" Don't save hidden and unloaded buffers in sessions.
+set sessionoptions-=buffers
 
 
 "
