@@ -713,12 +713,11 @@ set incsearch        " start searching while still typing
 set showmatch        " briefly jump to matching parenthese/bracket/brace
 
 
-"
-" ########                 ########
-" ######## Custom Commands ########
-" ########                 ########
-"
-" -- sessions
+" Sessions
+" ========
+
+" Commands
+
 com! -nargs=? -bang
        \ -complete=customlist,xolox#session#complete_names_with_suggestions
        \ SS SaveSession<bang> <args>
@@ -727,6 +726,19 @@ com! -nargs=? -bang -complete=customlist,xolox#session#complete_names
 com! -nargs=? -bang -complete=customlist,xolox#session#complete_names
        \ OS OpenSession<bang> <args>
 com! -nargs=? -bang CS CloseSession<bang> <args>
+
+" Options
+
+" Don't save folds in sessions.
+" (to avoid errors for invalid fold ranges on session load)
+set sessionoptions-=folds
+
+
+"
+" ########                 ########
+" ######## Custom Commands ########
+" ########                 ########
+"
 " -- open current file via default app:
 com! OF silent execute "!open \"%\" &" | redraw!
 " -- view open buffers
