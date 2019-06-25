@@ -17,7 +17,6 @@ ZSH_THEME="random"
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
 ZSH_THEME_RANDOM_CANDIDATES=(
-  "avit"
   "clean"
   "cloud"
   "flazz"
@@ -35,7 +34,6 @@ ZSH_THEME_RANDOM_CANDIDATES=(
   "risto"
   "simple"
   "sorin"
-  "terminalparty"
   "theunraveler"
   "wezm"
 )
