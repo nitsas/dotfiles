@@ -130,6 +130,10 @@ export LANG=en_US.UTF-8
 # Preferred editor
 export EDITOR=vim
 
+# Set options for `less`
+# see: https://www.topbug.net/blog/2016/09/27/make-gnu-less-more-powerful/
+# export LESS="--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4"
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
