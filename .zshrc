@@ -104,6 +104,7 @@ plugins=(
   pyenv
   python
   # rails
+  rbenv
   # redis-cli
   # ruby
   # tmux
