@@ -20,22 +20,12 @@ ZSH_THEME_RANDOM_CANDIDATES=(
   "clean"
   "cloud"
   "flazz"
-  "frisk"
-  "gallifrey"
-  "gentoo"
-  "geoffgarside"
-  "jreese"
   "kolo"
   "lambda"
   "lukerandall"
-  "macovsky"
-  "maran"
-  "muse"
   "risto"
   "simple"
   "sorin"
-  "theunraveler"
-  "wezm"
 )
 
 # Uncomment the following line to use case-sensitive completion.
