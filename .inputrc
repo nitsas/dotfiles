@@ -1,0 +1,104 @@
+#
+# This file contains keybindings for the GNU readline library.
+#
+
+
+#
+# ---- CHEATSHEET ----
+#
+# -- mapped <ctrl-n> to clear screen
+#
+# -- delete from the cursor to the beginning of line
+# ++ CTRL-u
+#
+# -- delete the previous word
+# ++ CTRL-w
+#
+# -- move backward in command history
+# ++ k
+#
+# -- move forward in command history
+# ++ j
+#
+# -- move to line <n> in command history
+# ++ <n>G
+#
+# -- search history backward for command matching <smth>
+# ++ /<smth>     (or CTRL-r)
+#
+# -- search history forward for command matching <smth>
+# ++ ?<smth>     (or CTRL-s)
+#
+# -- repeat history search in same (or opposite) direction
+# ++ n           (or N)
+#
+# -- insert all possible completions
+# ++ *
+#
+# -- invert case of char under cursor, and move a char right
+# ++ ~
+#
+# -- prepend # (comment char) to this line and send it to command history
+# ++ #
+#
+# -- insert <n>-th (default last) word (argument) of previous command in the
+#    current line
+# <n>_
+
+
+
+#
+# ---- MISC ----
+#
+
+# When the variable is off, if you pull a line from your command history
+# using the reverse search feature, edit it, but then decide to search
+# instead for another line, the edit you made is preserved in the history.
+set revert-all-at-newline on
+
+# Immediately add a trailing slash when autocompleting symlinks to directories
+set mark-symlinked-directories on
+
+# Be more intelligent when autocompleting by also looking at the text after
+# the cursor. For example, when the current line is "cd ~/src/mozil", and
+# the cursor is on the "z", pressing Tab will not autocomplete it to "cd
+# ~/src/mozillail", but to "cd ~/src/mozilla". (This is supported by the
+# Readline used by Bash 4.)
+set skip-completed-text on
+
+# List all matches in case multiple possible completions are possible
+# (as far as I can tell this only saves me 1 TAB)
+#set show-all-if-ambiguous on
+
+# enable vi bindings, i.e. vi-style editing for command lines that use
+# GNU readline (e.g. bash, mysql):
+set editing-mode vi
+
+# configure bindings for vi mode
+$if mode=vi
+  # -
+  # in insert mode
+  set keymap vi-insert
+  # ++ <Ctrl-l> clears the screen
+  # ++ (if you're using tmux try: <tmux-prefix> <Ctrl-l>)
+  Control-l: clear-screen
+  #
+  # -
+  # in command (normal) mode
+  set keymap vi-command
+  # ++ <Ctrl-l> clears the screen
+  # ++ (if you're using tmux try: <tmux-prefix> <Ctrl-l>)
+  Control-l: clear-screen
+  # ++ use the text that has already been typed as the prefix for searching
+  # through commands (i.e. more intelligent Up/Down behavior)
+  "\e[B": history-search-forward
+  "\e[A": history-search-backward
+  #
+  # -
+  # in insert mode
+  set keymap vi-insert
+  # ++ use the text that has already been typed as the prefix for searching
+  # through commands (i.e. more intelligent Up/Down behavior)
+  "\e[B": history-search-forward
+  "\e[A": history-search-backward
+$endif
