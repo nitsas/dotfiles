@@ -1534,6 +1534,10 @@ let g:scratch_height = 0.5
 " (g:graphql_javascript_tags not defined or smth)
 let g:polyglot_disabled = ['graphql']
 
+" --
+" Fix the issue where .js files get filetype javascript.jsx:
+let g:jsx_ext_required = 1
+
 " ######## kompleter ########
 "
 " --
