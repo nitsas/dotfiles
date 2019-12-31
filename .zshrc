@@ -149,3 +149,6 @@ alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
 # Press up/down to search the command history
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
+
+# Fix Delete key. Make it forward delete instead of capitalizing.
+bindkey "\e[3~" delete-char
