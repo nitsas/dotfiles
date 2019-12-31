@@ -664,7 +664,7 @@ endif
 let $BASH_ENV="~/.bash_profile_sections/aliases.bash"
 
 " git grep and paste results in buffer
-nnoremap <leader>gg :read<space>!gg<space>
+nnoremap <leader>gg :read<space>!git<space>grep<space>-i<space>
 
 " tab in normal mode indents
 " nnoremap <tab> a<tab><esc>
