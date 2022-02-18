@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 PATH="$PATH:$HOME/.scripts/bin:."
-PATH="/usr/local/sbin:/usr/local/bin:$PATH"
+# PATH="/usr/local/sbin:/usr/local/bin:$PATH"
 export PATH
 
 # Path to your oh-my-zsh installation.
@@ -81,17 +81,17 @@ ZSH_THEME_RANDOM_CANDIDATES=(
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  asdf
-  # brew
-  bundler
+  # TEMP:
+  # bundler
   # coffee
   # common-aliases
   # compleat
   docker
+  docker-compose
   # encode64
   extract
   fzf
-  gem
+  # gem
   git
   # gitfast
   httpie
@@ -102,7 +102,7 @@ plugins=(
   npm
   pip
   pyenv
-  python
+  # python
   # rails
   rbenv
   # redis-cli
@@ -115,6 +115,15 @@ plugins=(
   z
 )
 
+# Set up homebrew's autocompletions:
+# (must run before we source oh-my-zsh.sh)
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -126,6 +135,8 @@ setopt no_complete_aliases
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
+export LC_CTYPE="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 # Preferred editor
 export EDITOR=vim
@@ -147,8 +158,13 @@ alias zshrc="$EDITOR ~/.zshrc"
 alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
 
 # Press up/down to search the command history
-bindkey "^[[A" history-beginning-search-backward
-bindkey "^[[B" history-beginning-search-forward
+bindkey "^[OA" history-beginning-search-backward
+bindkey "^[OB" history-beginning-search-forward
+# Find exact key codes by pressing Ctrl-v and then the key
 
 # Fix Delete key. Make it forward delete instead of capitalizing.
 bindkey "\e[3~" delete-char
+
+# Enable iterm2's shell integration.
+# https://www.iterm2.com/documentation-shell-integration.html
+source ~/.iterm2_shell_integration.zsh
