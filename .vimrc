@@ -121,12 +121,32 @@ call vundle#begin()
 " let Vundle manage Vundle (required)
 Plugin 'VundleVim/Vundle.vim'
 
+" A collection of language packs for Vim.
+" - It won't affect your startup time, as scripts are loaded only on demand*.
+" - It installs and updates 100+ times faster than 100+ packages it consist of.
+" - Solid syntax and indentation support. Only the best language packs.
+Plugin 'sheerun/vim-polyglot'
+" --
+" Individual language packs can be disabled as follows:
+" let g:polyglot_disabled = ['ansible']
+" Disable graphql temporarily to avoid an error when opening js files
+" (g:graphql_javascript_tags not defined or smth)
+let g:polyglot_disabled = ['graphql']
+" --
+" Fix the issue where .js files get filetype javascript.jsx:
+let g:jsx_ext_required = 1
+" --
+" vim-markdown: Fix markdown indentation on new list item
+let g:vim_markdown_new_list_item_indent = 0
+
 " Stop foldmethod=syntax (et al.) from bogging down your vim.
 " Folds are only recomputed on buffer save (and some other cases)
 " and foldmethod manual is used the rest of the time.
-Plugin 'Konfekt/FastFold'
+" Plugin 'Konfekt/FastFold'
 
 " Fancy fold texts
+" Folded sections show more-or-less the first line of the fold,
+" e.g. the method signature, the class name, etc.
 Plugin 'Konfekt/FoldText'
 
 " Syntax file for JavaScript libraries. (jQuery etc)
@@ -140,15 +160,8 @@ Plugin 'Konfekt/FoldText'
 " (this is said to conflict with jedi-vim and other stuff)
 " Plugin 'klen/python-mode'
 
-" Improved syntax highlighting for rspec.
-" (included in vim-polyglot)
-" Plugin 'keith/rspec.vim'
-
 " Switch between single and multi-line statements with gS/gJ.
 " Plugin 'AndrewRadev/splitjoin.vim'
-
-" Syntax checking through external syntax checkers.
-" Plugin 'scrooloose/syntastic'
 
 " Make Vim handle line and column numbers in file names with a minimum of fuss
 " Allows you to open a specific file on a specific file via bash:
@@ -157,13 +170,43 @@ Plugin 'wsdjeg/vim-fetch'
 
 " Asynchronous syntax checking through external checkers (needs vim 8 or neovim)
 Plugin 'w0rp/ale'
-let g:ale_echo_msg_format = '%linter% says: %s'
+let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
+" --
+" keep the sign gutter open at all times
+let g:ale_sign_column_always = 1
+" --
+" Limit which linters to run for specific filetypes:
+" - limit html to 'tidy'
+" - enable linting for text ('proselint') (text linters disabled by default)
+let g:ale_linters = {
+      \ 'html': ['tidy'],
+      \ 'text': ['proselint'],
+      \ 'javascript': ['eslint', 'prettier'],
+      \ }
+" --
+" enable airline ale extension
+let g:airline#extensions#ale#enabled = 1
+" --
+" don't underline the segment of the line that has the error/warning
+let g:ale_set_highlights = 0
+" --
+" disable ale for ruby files under yogurt
+" let g:ale_pattern_options = {
+"       \ 'yogurt/.*\.rb': { 'ale_enabled': 0 },
+"       \ 'yogurt/.*\.erb': { 'ale_enabled': 0 },
+"       \ }
+" --
+" Fixers for command :ALEFix
+let g:ale_fixers = {
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ 'javascript': ['eslint', 'prettier'],
+      \ }
+let g:ale_fix_on_save = 1
+
+
 
 " Align text using `:Tabularize /<delimiter>`
 Plugin 'godlygeek/tabular'
-
-" Add various text objects to have more targets to operate on.
-" Plugin 'wellle/targets.vim'
 
 " Lean & mean status/tabline for vim that's light as air.
 Plugin 'vim-airline/vim-airline'
@@ -171,18 +214,10 @@ Plugin 'vim-airline/vim-airline'
 " A collection of themes for vim-airline (make airline play well with solarized)
 Plugin 'vim-airline/vim-airline-themes'
 
-" CoffeeScript support for vim (syntax, indenting, compiling and more).
-" (included in vim-polyglot)
-" Plugin 'kchmck/vim-coffee-script'
-
 " Precision colorscheme (solarized).
 Plugin 'altercation/vim-colors-solarized'
 
-" Syntax highlighting for hackers.
-" The successor to Tomorrow Theme colorscheme.
-" Plugin 'chriskempson/base16-vim'
-
-" Comment stuff out using gcc/gc
+" Comment stuff out using `gcc` (current line) or `gc<movement>` (multi-line)
 Plugin 'tpope/vim-commentary'
 
 " A git wrapper so awesome it should be illegal.
@@ -191,17 +226,11 @@ Plugin 'tpope/vim-fugitive'
 " Miscellaneous auto-load Vim scripts (required by vim-session).
 Plugin 'xolox/vim-misc'
 
-" Vim/Ruby Configuration Files.
-" (completion seems to work even without this and vim-rails)
-" (takes care of syntax highlighting for erb files, among other things)
-" (included in vim-polyglot)
-" Plugin 'vim-ruby/vim-ruby'
+" Extended session management (:mksession on steroids).
+Plugin 'xolox/vim-session'
 
 " Ruby on Rails power tools.
 Plugin 'tpope/vim-rails'
-
-" Extended session management (:mksession on steroids).
-Plugin 'xolox/vim-session'
 
 " Command-T is a Vim plug-in that provides an extremely fast "fuzzy" mechanism for:
 "   Opening files and buffers
@@ -209,6 +238,10 @@ Plugin 'xolox/vim-session'
 "   Running commands, or previous searches and commands
 " with a minimal number of keystrokes.
 " Plugin 'wincent/command-t'
+" make <esc> work in terminal vim
+" if &term =~ "xterm" || &term =~ "screen"
+"   let g:CommandTCancelMap = ['<esc>', '<c-c>']
+" endif
 
 " All about "surroundings": parentheses, brackets, quotes, XML tags, and more.
 " - cs<old_surrounding><new_surrounding> to change surrounding
@@ -252,9 +285,6 @@ Plugin 'tpope/vim-unimpaired'
 " Seamless navigation between tmux panes and vim splits.
 Plugin 'christoomey/vim-tmux-navigator'
 
-" Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
-" Plugin 'ctrlpvim/ctrlp.vim'
-
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
 Plugin 'tpope/vim-endwise'
 
@@ -282,6 +312,29 @@ Plugin 'ervandew/supertab'
 " - completes stuff with <c-space> (configurable) - but no need since it
 "   works with <tab> as well
 Plugin 'davidhalter/jedi-vim'
+" --
+" use a new tab when going to a definition
+" let g:jedi#use_tabs_not_buffers = 1
+" --
+" use a split when going to a definition (left/right/top/bottom/winwidth)
+" let g:jedi#use_splits_not_buffers = "left"
+" --
+" display function call signature in command line ("2") instead of a buffer ("1")
+" (might be necessary to improve the integrity of vim's undo history)
+" let g:jedi#show_call_signatures = "2"
+" --
+" disable completions but keep all other features
+" let g:jedi#completions_enabled = 0
+" --
+" don't want the docstring window to popup during completion?
+" autocmd FileType python setlocal completeopt-=preview
+" --
+" disable autocomplete popup on typing '.' (will still get when hitting <tab>)
+let g:jedi#popup_on_dot = 0
+" --
+" disable mapping for jedi#usages() (shows usages of a name)
+" (because it clashes with my <leader>n mapping)
+let g:jedi#usages_command = ''
 
 " Start a * or # search from a visual block
 " (select some text using Vim's visual mode and then hit * and # to search
@@ -306,21 +359,13 @@ Plugin 'jeetsukumaran/vim-indentwise'
 " Use <c-a>/<c-x> to increment dates, times, and more
 " Plugin 'tpope/vim-speeddating'
 
-" Vim plugin that defines a new text object representing lines of code
-" at the same indent level.
-" Plugin 'michaeljsmith/vim-indent-object'
-
-" This plugin provides a text-object 'a' (argument).
-" You can d(elete), c(hange), v(select)... an argument or inner argument
-" in familiar ways.
-" That is, such as 'daa'(delete-an-argument) 'cia'(change-inner-argument)
-" 'via'(select-inner-argument).
-" Plugin 'vim-scripts/argtextobj.vim'
-
 " A vim script to provide CamelCase motion through words
-"   I'll use `,w` `,e` `,ge` `,b` to move across CamelCase/snake_case words
-"   `i,w` `i,e` `i,ge` `i,b` will be the text objects
+" I'll use `,w` `,e` `,ge` `,b` to move across CamelCase/snake_case words.
+" `i,w` `i,e` `i,ge` `i,b` will be the text objects.
 Plugin 'bkad/CamelCaseMotion'
+" --
+" create the mappings using ',' as the prefix
+let g:camelcasemotion_key = ','
 
 " Replace text with the contents of a register
 "   [count]["x]gr{motion} Replace {motion} text with the contents of register x.
@@ -333,6 +378,16 @@ Plugin 'vim-scripts/ReplaceWithRegister'
 "   use `:RangerWorkingDirectory` to open ranger in the current workspace
 "     (current workspace is the directory vim is currently `cd`ed into)
 Plugin 'francoiscabrol/ranger.vim'
+" --
+" open ranger instead of netrw when opening a directory
+let g:ranger_replace_netrw = 1
+" --
+" don't add default shortcuts
+let g:ranger_map_keys = 0
+" --
+" shortcut to open ranger
+" nnoremap <leader>f :Ranger<cr>
+" nnoremap <leader>F :RangerNewTab<cr>
 
 " Provide easy code formatting in Vim by integrating existing code formatters.
 " TODO: check
@@ -354,31 +409,24 @@ Plugin 'francoiscabrol/ranger.vim'
 " TODO: check
 " Plugin 'junegunn/limelight.vim'
 
-
-" --
-" open ranger instead of netrw when opening a directory
-let g:ranger_replace_netrw = 1
-" --
-" don't add default shortcuts
-let g:ranger_map_keys = 0
-" --
-" shortcut to open ranger
-nnoremap <leader>f :Ranger<cr>
-nnoremap <leader>F :RangerNewTab<cr>
-
 " Unobtrusive scratch window. Inspired by scratch.vim, enhanced.
-" - `:Scratch` opens a scratch buffer in a new window (by default using the 
-"   top 20% of the screen, configurable via g:scratch_height and 
-"   g:scratch_top). The window automatically closes when inactive (and its 
+" - `:Scratch` opens a scratch buffer in a new window (by default using the
+"   top 20% of the screen, configurable via g:scratch_height and
+"   g:scratch_top). The window automatically closes when inactive (and its
 "   contents will be available the next time it is opened).
-" - `gs` in normal mode opens the scratch window and enters insert mode. The 
-"   scratch window closes when you leave insert mode. This is especially 
+" - `gs` in normal mode opens the scratch window and enters insert mode. The
+"   scratch window closes when you leave insert mode. This is especially
 "   useful for quick notes.
-" - `gs` in visual mode pastes the current selection (character-wise, line-wise 
+" - `gs` in visual mode pastes the current selection (character-wise, line-wise
 "   or block-wise) into the scratch buffer.
-" - Both above mappings have a gS variant that clears the scratch buffer 
+" - Both above mappings have a gS variant that clears the scratch buffer
 "   before opening it.
 Plugin 'mtth/scratch.vim'
+" --
+" set scratch window's height
+" (if int it means num of columns - if float it means percentage of window)
+let g:scratch_height = 0.5
+
 
 " A bundle of fzf-based commands and mappings extracted from junegunn's .vimrc
 " (fzf installed via homebrew)
@@ -390,15 +438,6 @@ Plugin 'junegunn/fzf.vim'
 "   \ 'ctrl-t': 'tab split',
 "   \ 'ctrl-x': 'split',
 "   \ 'ctrl-v': 'vsplit' }
-
-" Delete all the buffers except for the current one.
-Plugin 'schickling/vim-bufonly'
-
-" A collection of language packs for Vim.
-" - It won't affect your startup time, as scripts are loaded only on demand*.
-" - It installs and updates 100+ times faster than 100+ packages it consist of.
-" - Solid syntax and indentation support. Only the best language packs.
-Plugin 'sheerun/vim-polyglot'
 
 " React JSX syntax highlighting and indenting for vim.
 " Plugin 'mxw/vim-jsx'
@@ -439,7 +478,7 @@ Plugin 'AndrewRadev/linediff.vim'
 " Plugin 'Raimondi/delimitMate'
 
 " Emoji in Vim
-Plugin 'junegunn/vim-emoji'
+" Plugin 'junegunn/vim-emoji'
 
 " Brings physics-based smooth scrolling to the Vim world!
 " Plugin 'yuttie/comfortable-motion.vim'
@@ -455,7 +494,7 @@ Plugin 'junegunn/vim-emoji'
 " TODO: check (from papanikge)
 " Plugin 'mileszs/ack.vim'
 
-" This plugin automatically adjusts 'shiftwidth' and 'expandtab' heuristically 
+" This plugin automatically adjusts 'shiftwidth' and 'expandtab' heuristically
 " based on the current file.
 " TODO: check (from papanikge)
 " Plugin 'tpope/vim-sleuth'
@@ -476,14 +515,8 @@ Plugin 'mbbill/undotree' ", { 'on': 'UndotreeToggle' } TODO: use this with Plug
 " TODO: check (from papanikge)
 " Plugin 'diepm/vim-rest-console' ", { 'for': 'rest' }
 
-" Vastly improved Javascript indentation and syntax support in Vim.
-" Plugin 'pangloss/vim-javascript'
-
 " Do a tig in your vim
-" usage:
-" - `:Tig`
-" - `:Tig show`
-" - `:Tig!`: show commit log of current file
+" Usage: `:Tig` try it while the cursor is on a commit hash or anywhere else
 Plugin 'codeindulgence/vim-tig'
 command! Tgi :Tig
 
@@ -493,7 +526,51 @@ command! Tgi :Tig
 " Preview colors in source code while editing
 " Plugin 'ap/vim-css-color'
 
+" Vim plugin to list, select and switch between buffers.
+"
+" Use <Leader>b (typically: \b) to open a window listing all buffers.
+" In this window, you can use normal movement keys to select a buffer and then:
+" - <ENTER> to edit the selected buffer in the previous window
+" - <C-V> to edit the selected buffer in a new vertical split
+" - <C-S> to edit the selected buffer in a new horizontal split
+" - <C-T> to edit the selected buffer in a new tab page
+"
+" Use gb (or <M-b>) and gB (or <M-S-b>) to flip through the most-recently used
+" buffer stack without opening the buffer listing "drawer".
+"
+" Use <Leader><LEFT>, <Leader><UP>, <Leader><RIGHT>, <Leader><DOWN> to split a
+" new window left, up, right, or down, respectively, and edit the previous MRU
+" buffer there.
+"
+" Many other options are supported: (e.g. open in existing window/tab, or in
+" the same window; preview buffer without leaving buffer listing; "pin" the
+" buffer listing so that it is open all the time, etc. etc.)
+Plugin 'jeetsukumaran/vim-buffergator'
 
+" A Vim wrapper for running tests on different granularities.
+" - :TestNearest
+" - :TestFile
+" - :TestSuite
+" - :TestLast
+" - :TestVisit
+Plugin 'vim-test/vim-test'
+
+" Language Server Protocol support for vim and neovim.
+" Supports Ruby's solargraph gem.
+" Plugin 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+
+" let g:LanguageClient_serverCommands = {
+"     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+"     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"     \ 'python': ['/usr/local/bin/pyls'],
+"     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+"     \ }
+
+" VIM PostCSS Sorting
+"
+" Usage: `:CSSSorting<cr>`
+" nnoremap <Leader>cs :CSSSorting<CR>
+Plugin 'bkaney/vim-postcss-sorting'
 
 " all plugins must be added before the following line (required)
 call vundle#end()
@@ -607,7 +684,7 @@ nnoremap <leader>* *
 nnoremap * g*
 
 " list all buffers and get ready to switch to one of them
-nnoremap <leader>b :Buffers<cr>
+" nnoremap <leader>b :Buffers<cr>
 
 " if a file has been detected to be changed outside vim reread it
 " (throws an error if the file was deleted outside vim)
@@ -684,6 +761,10 @@ set undofile
 " TODO: It would be better to have this under ~/.vim/undodir, but my
 "       current setup makes that not ideal.
 set undodir=~/.vim_undodir
+
+" For insert-mode completion. Show a popup menu, with extra info for each
+" match, and autocomplete with the longest common prefix of all matches.
+set completeopt=menu,longest,preview
 
 
 "
@@ -780,9 +861,19 @@ com! Todo edit todo.md
 " -- tidy an html file (break lines and indent)
 com! TidyHtml :%!tidy -q -i --show-errors 0
 
-com! -nargs=1 -complete=customlist,s:EmojiCompleteCmdLineArg EmojiInsert call s:EmojiInsertFunc(<f-args>)
+" com! -nargs=1 -complete=customlist,s:EmojiCompleteCmdLineArg EmojiInsert call s:EmojiInsertFunc(<f-args>)
 
-com! OpenOnGithub execute ('!open "'.CurrentRepoGithubURL().'"')
+com! OpenOnGithub execute ('!open -n "'.CurrentRepoGithubURL().'"')
+com! EchoCurrentSyntaxGroup :echo CurrentSyntaxGroup()
+
+com! Ruby :set filetype=ruby
+com! Rb Ruby
+
+" "-range=%" means that passing a range is allowed,
+" and the default is the whole file
+" Format code copied from a Ruby console, so that it's prettier and
+" easy to copy-paste back into another console.
+command! -range=% FormatRubyConsole :<line1>,<line2>s/^.*[^=]> \?/>>/e | <line1>,<line2>s/^=>/# =>/e | <line1>,<line2>s/^[^#>]/# /e | <line1>,<line2>s/^>>//e
 
 
 
@@ -790,11 +881,25 @@ com! OpenOnGithub execute ('!open "'.CurrentRepoGithubURL().'"')
 " ######## Functions  ########
 "
 
-
 function! CurrentRepoGithubURL()
-  return 'https://github.skroutz.gr/skroutz/yogurt/blob/master/'.expand('%').'\#L'.line('.')
+  return RemoteURL().'/blob/master/'.expand('%').'\#L'.line('.')
 endfunction
 
+function! RemoteURL()
+  let l:remote = system('git remote get-url --all origin')
+  return substitute(substitute(substitute(substitute(l:remote, ":", "/", ""), "git@", "https://", ""), "\\.git", "", ""), '\n\+$', '', '')
+endfunction
+
+function! BranchName()
+  return system('bash -c "git rev-parse --abbrev-ref HEAD"')
+endfunction
+
+
+" What is the syntax group for the position under the cursor?
+function! CurrentSyntaxGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    return synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun
 
 " Close all hidden buffers in Vim
 " (copied from https://gist.github.com/skanev/1068214)
@@ -813,21 +918,21 @@ function! s:CloseHiddenBuffers()
 endfunction
 
 
-function! s:EmojiInsertFunc(emoji)
-  exec 'normal i' . emoji#for(a:emoji)
-endfunction
+" function! s:EmojiInsertFunc(emoji)
+"   exec 'normal i' . emoji#for(a:emoji)
+" endfunction
 
 
-function! s:EmojiCompleteCmdLineArg(ArgLead, CmdLine, CursorPos)
-  let l:completions = emoji#complete(0, a:ArgLead)
-  let l:result = []
+" function! s:EmojiCompleteCmdLineArg(ArgLead, CmdLine, CursorPos)
+"   let l:completions = emoji#complete(0, a:ArgLead)
+"   let l:result = []
 
-  for l:completion in l:completions
-    call add(l:result, split(l:completion['word'], ':')[0])
-  endfor
+"   for l:completion in l:completions
+"     call add(l:result, split(l:completion['word'], ':')[0])
+"   endfor
 
-  return l:result
-endfunction
+"   return l:result
+" endfunction
 
 
 
@@ -838,16 +943,16 @@ endfunction
 "
 " -- remember:
 " ++ folds must be defined by entering commands (e.g. zf)
-"set foldmethod=manual
+set foldmethod=manual
 " ++ groups of lines with the same indent form a fold
-"set foldmethod=indent
+" set foldmethod=indent
 " ++ (fdl) display x first levels of folds
 "set foldlevel=x
 
 " -- folds are defined by syntax
-set foldmethod=syntax
+" set foldmethod=syntax
 " -- deepest fold is x levels
-set foldnestmax=8
+set foldnestmax=6
 " -- don't fold by default (so that the file isn't folded when you first open it)
 set nofoldenable
 " -- enable folding of vimscript files
@@ -867,7 +972,17 @@ function! IsFolded()
 endfunction
 
 " -- fold html (using xml's folding rules)
-command! FoldHTML :set filetype=xml | :set foldmethod=syntax | :set foldlevel=0
+command! FoldHTML :setlocal filetype=xml | :setlocal foldmethod=syntax | :setlocal foldlevel=0
+
+" -- recompute folds with foldmethod=syntax
+command! FoldSyntax :setlocal foldmethod=syntax
+" -- change back to foldmethod=manual
+command! FoldManual :setlocal foldmethod=manual
+" -- Make zM recompute folds with foldmethod=syntax and change back to manual
+" nnoremap <silent> <leader>f :FoldSyntax<cr>zM
+" nnoremap <leader>F :FoldManual<cr>
+nnoremap <silent> zM :FoldSyntax<cr>zM:FoldManual<cr>
+
 
 
 "
@@ -945,9 +1060,11 @@ set winminwidth=0
 " -
 " insert stuff from normal mode (without moving):
 " empty line above
-nnoremap <leader>O mpO<esc>0D`p
+" Use `[<space>` from vim-unimpaired instead!
+" nnoremap <leader>O mpO<esc>0D`p
 " empty line below
-nnoremap <leader>o mpo<esc>0D`p
+" Use `]<space>` from vim-unimpaired instead!
+" nnoremap <leader>o mpo<esc>0D`p
 " -
 " nnoremap <leader>t :tab
 " nnoremap <leader>e  :e<space>
@@ -974,6 +1091,7 @@ nnoremap <leader>gs :Scratch<cr>
 "
 set formatoptions+=w  " don't break words when wrapping lines
 " let &colorcolumn=join(range(81,999),',')    " color from xth column onwards
+set colorcolumn=100
 " pressing <F4> while in insert mode will toggle paste-mode
 " (i.e. no autoindent)
 set pastetoggle=<F4>
@@ -1084,7 +1202,7 @@ augroup filetypespecific
   " see which autocommands are running in real-time
   "set verbose=9
 
-  " clear all autocommands for this group
+  " clear all autocommands for this group when the group is redefined
   autocmd!
 
   " auto reload .vimrc
@@ -1137,6 +1255,10 @@ augroup filetypedetect
   " -
   " .es6 (javascript es6 files):
   autocmd! BufRead,BufNewFile *.es6 setfiletype javascript
+
+  " -
+  " .jsx (javascript react files):
+  autocmd! BufRead,BufNewFile *.jsx setfiletype javascript.jsx
 augroup END
 
 
@@ -1425,7 +1547,7 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing' ]
 "
 " -- Syntax file for JavaScript libraries. (jQuery etc)
 " -- Set up which libs you use:
-let g:used_javascript_libs = 'jquery,requirejs,jasmine,chai,handlebars'
+let g:used_javascript_libs = 'underscore,jquery,requirejs,jasmine,chai,handlebars'
 
 " ######## indentLine ########
 "
@@ -1475,97 +1597,11 @@ let g:SuperTabLongestHighlight = 1
 " Temporarily override 'ignorecase' by setting to either 'ignore' or 'match'.
 let g:SuperTabCompleteCase = 'match'
 
-" ######## jedi-vim ########
-"
-" --
-" use a new tab when going to a definition
-" let g:jedi#use_tabs_not_buffers = 1
-" --
-" use a split when going to a definition (left/right/top/bottom/winwidth)
-" let g:jedi#use_splits_not_buffers = "left"
-" --
-" display function call signature in command line ("2") instead of a buffer ("1")
-" (might be necessary to improve the integrity of vim's undo history)
-" let g:jedi#show_call_signatures = "2"
-" --
-" disable completions but keep all other features
-" let g:jedi#completions_enabled = 0
-" --
-" don't want the docstring window to popup during completion?
-" autocmd FileType python setlocal completeopt-=preview
-" --
-" disable autocomplete popup on typing '.' (will still get when hitting <tab>)
-let g:jedi#popup_on_dot = 0
-" --
-" disable mapping for jedi#usages() (shows usages of a name)
-" (because it clashes with my <leader>n mapping)
-let g:jedi#usages_command = ''
-
-" ######## bkad/CamelCaseMotion ########
-"
-" --
-" create the mappings
-call camelcasemotion#CreateMotionMappings(',')
-
-" ######## wincent/command-t ########
-"
-" --
-" make <esc> work in terminal vim
-if &term =~ "xterm" || &term =~ "screen"
-  let g:CommandTCancelMap = ['<esc>', '<c-c>']
-endif
-
-" ######## francoiscabrol/ranger.vim ########
-"
-
-" ######## mtth/scratch.vim ########
-"
-" --
-" set scratch window's height
-" (if int it means num of columns - if float it means percentage of window)
-let g:scratch_height = 0.5
-
-" ######## vim-polyglot ########
-"
-" --
-" Individual language packs can be disabled as follows:
-" let g:polyglot_disabled = ['ansible']
-" Disable graphql temporarily to avoid an error when opening js files
-" (g:graphql_javascript_tags not defined or smth)
-let g:polyglot_disabled = ['graphql']
-
-" --
-" Fix the issue where .js files get filetype javascript.jsx:
-let g:jsx_ext_required = 1
-
 " ######## kompleter ########
 "
 " --
 " Don't replace standard completion mappings `<c-n>/<c-p>` with `<c-x><c-u>`
 let g:kompleter_replace_standard_mappings = 0
-
-" ######## w0rp/ale: ########
-"
-" keep the sign gutter open at all times
-let g:ale_sign_column_always = 1
-
-" Limit which linters to run for specific filetypes:
-" - limit html to 'tidy'
-" - enable linting for text ('proselint') (text linters disabled by default)
-let g:ale_linters = { 'html': ['tidy'], 'text': ['proselint'], 'javascript': ['eslint'], }
-
-" enable airline ale extension
-let g:airline#extensions#ale#enabled = 1
-
-" disable ale for ruby files under yogurt
-" let g:ale_pattern_options = {
-"       \ 'yogurt/.*\.rb': { 'ale_enabled': 0 },
-"       \ 'yogurt/.*\.erb': { 'ale_enabled': 0 },
-"       \ }
-
-" don't underline the segment of the line that has the error/warning
-let g:ale_set_highlights = 0
-
 
 " ######## pangloss/vim-javascript ########
 "
@@ -1609,5 +1645,8 @@ highlight ColorColumn ctermbg=0
 
 " set color of sign column
 highlight SignColumn ctermbg=0
+
+" fix highlighting of html italics (e.g. inside the <em> tag)
+highlight htmlItalic ctermfg=7
 
 com! -range FormatJSON <count>!python -m json.tool
