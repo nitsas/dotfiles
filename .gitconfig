@@ -1,0 +1,123 @@
+; ---- CHEATSHEET ----
+;
+; this file follows the INI format
+;
+; `git add --patch`
+; interactively add (patch) chunks of changes
+; remember:
+; - y = yes, add chunk
+; - n = no, don't add chunk
+; - s = split into smaller chunks
+; - e = manually edit chunk
+;
+; `git log --name-status`
+; (or --name-only, or --stat)
+; log and show files changed by each commit
+;
+[user]
+  name = Chris Nitsas
+  email = nitsas@skroutz.gr
+[url "git@github.skroutz.gr:"]
+  insteadOf = deploy:
+  insteadOf = skroutz:
+[push]
+  default = current
+[merge]
+  conflictstyle = diff3
+  tool = diffconflicts
+[color]
+  ui = auto
+[core]
+  excludesfile = ~/.gitignore
+  ; the first three are on by default - maybe I don't have to use them here
+  whitespace = blank-at-eol,blank-at-eof,space-before-tab,tab-in-indent
+  quotePath = false
+[alias]
+  st = stash
+  b = branch
+  c = commit
+  cm = commit -m
+  cf = commit --fixup
+  ca = commit --amend
+  l = log
+  ll = long --oneline
+  a = add
+  ai = add --intent-to-add
+  ap = add -p
+  au = add -u
+  d = diff
+  do = diff @{upstream}
+  ds = diff --staged
+  ; `$@` means "the rest of the command line arguments"
+  ; dmb = !sh -c 'git diff $(git merge-base HEAD master) $@' -
+  dmb = diff master...HEAD
+  dmbno = diff master...HEAD --name-only
+  f = fetch
+  rb = rebase
+  rbi = rebase -i
+  ; Start an interactive rebase onto the merge-base,
+  ; i.e. onto the root of the current branch in master.
+  ; It allows us to edit the commits of the current branch! :)
+  rbimb = !sh -c 'git rebase -i $(git merge-base HEAD master)' -
+  rbis = rebase -i --autosquash
+  rbismb = !sh -c 'git rebase -i --autosquash $(git merge-base HEAD master)' -
+  ; rebase on the origin branch
+  rbo = rebase @{u}
+  rba = rebase --abort
+  rbc = rebase --continue
+  g = grep
+  co = checkout
+  cp = cherry-pick
+  s = status
+  ; show status of tracked files only
+  ss = status -uno
+  ; show short of tracked files only (short output)
+  sss = status -uno --short
+  stash-unapply = !git stash show -p | git apply -R
+  ; show only names of changed files
+  names = diff --name-only
+  ; show names files changed in this branch (i.e. from the merge-base up to now)
+  namesmb = !sh -c 'git diff --name-only $(git merge-base HEAD master) $@' -
+  nmb = !sh -c 'git diff --name-only $(git merge-base HEAD master) $@' -
+  lognames = log --name-status
+  hard = reset --hard
+  hardo = reset --hard @{u}
+  ; checkout the previous branch
+  p = checkout -
+  ; show most recent branches and choose which one to check out
+  ; needs: https://gist.github.com/fritz-c/c1e528b09bc1c0827a3c
+  ; usage: `git cor [-n <how-many-lines>]`
+  cor = recentco
+  ; merge-base: i.e. the base of the current branch in master (or in the branch given as an arg)
+  ; I mainly use this as part of `rbimb` and `rbismb`
+  mb = !sh -c 'git merge-base HEAD ${1:-master}' -
+  ; from mkousta: clean merged branches
+  clean-merged = !git branch --merged master | grep -v master | xargs git branch -d
+[mergetool]
+  keepBackup = false
+[mergetool "diffconflicts"]
+  cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+  trustExitCode = true
+[grep]
+  lineNumber = true
+[diff]
+  ; allow `git diff` to do basic rename and copy detection
+  renames = copies
+  ; tell `git diff` to use i(ndex) w(ork tree) c(ommit) and o(bject)
+  ; instead of the a and b notation
+  mnemonicprefix = true
+  indentHeuristic = false
+  algorithm = patience
+[commit]
+  cleanup = strip
+[filter "lfs"]
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+[branch]
+	sort = -committerdate
+[pull]
+	rebase = true
+[remote "origin"]
+	prune = true
