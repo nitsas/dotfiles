@@ -101,7 +101,7 @@ plugins=(
   # node
   npm
   pip
-  pyenv
+  # pyenv
   # python
   # rails
   rbenv
