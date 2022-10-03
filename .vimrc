@@ -848,11 +848,18 @@ com! Closehiddenbuffers call s:CloseHiddenBuffers()
 " -- tig show commit under the cursor
 com! TigShow silent execute "!tig show <cword>" | redraw!
 
+" -- enable Ruby formatting & highlighting
+com! Ruby :set filetype=ruby
+com! Rb Ruby
+
 " -- make current buffer into a scratch buffer
 com! Scratchify setlocal buftype=nofile noswapfile
 com! ScratchNew new | Scratchify
 com! ScratchVNew vnew | Scratchify
 com! ScratchTabNew tabnew | Scratchify
+" com! ScratchRuby new | Scratchify | Ruby
+" com! ScratchRb ScratchRuby
+" com! Srb ScratchRuby
 
 " -- open local todos file
 com! Todo edit todo.md
@@ -865,14 +872,13 @@ com! TidyHtml :%!tidy -q -i --show-errors 0
 com! OpenOnGithub execute ('!open -n "'.CurrentRepoGithubURL().'"')
 com! EchoCurrentSyntaxGroup :echo CurrentSyntaxGroup()
 
-com! Ruby :set filetype=ruby
-com! Rb Ruby
-
 " "-range=%" means that passing a range is allowed,
 " and the default is the whole file
 " Format code copied from a Ruby console, so that it's prettier and
 " easy to copy-paste back into another console.
 command! -range=% FormatRubyConsole :<line1>,<line2>s/^.*[^=]> \?/>>/e | <line1>,<line2>s/^=>/# =>/e | <line1>,<line2>s/^[^#>]/# /e | <line1>,<line2>s/^>>//e
+command! -range=% FRC FormatRubyConsole
+command! -range=% Frc FormatRubyConsole
 
 
 
