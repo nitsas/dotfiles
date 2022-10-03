@@ -1,0 +1,57 @@
+diffconflicts:
+  language: bash
+  source:
+    '''
+    https://github.com/whiteinge/dotfiles/blob/master/bin/diffconflicts
+    http://vim.wikia.com/wiki/A_better_Vimdiff_Git_mergetool
+    '''
+  purpose:
+    '''
+    used as a mergetool for git, it calls vimdiff and sets it up with
+    a more useful layout than the one git sets up by default
+    '''
+
+
+joinpdfs:
+  language: python
+  source:
+    '''
+    Built into OS X's Automator. I copied it from:
+    /System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py
+    '''
+  purpose:
+    '''
+    Concatenates PDF files (i.e. joins them into a single bigger pdf).
+    '''
+  usage:
+    '''
+    joinpdfs [--output <file>] [--shuffle] [--verbose] <file> [<file> ...]
+    # shuffle will take one page from each file in turn
+    # before it tries for a second page
+    '''
+
+
+chrome:
+  language: bash
+  source: https://gist.github.com/minrk/6126370
+  purpose:
+    '''
+    Same as `git checkout branch` but with fuzzy matching if checkout fails.
+    '''
+  usage:
+    '''
+    You can alias:
+    alias co="git_fuzzy_checkout"
+    or add an alias for it inside git
+    '''
+
+
+google:
+  language: bash
+  source: mine
+  purpose: "Search google.com"
+  usage:
+    '''
+    google really cool thing I want to search for
+    # no string delimiters needed
+    '''

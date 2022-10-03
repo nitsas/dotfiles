@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""
+git relaxedco
+
+Same as `git checkout branch`, but with fuzzy matching if checkout fails.
+Turns `git checkout barnch` into `git checkout branch`,
+assuming `branch` is a branch.
+"""
+
+import difflib
+import sys
+
+from subprocess import check_output, check_call, CalledProcessError
+
+
+def proximity(a, b):
+    """measure proximity of two strings"""
+    return difflib.SequenceMatcher(None, a, b).ratio()
+
+
+class BranchGetter:
+    def __init__(self):
+        output = check_output(['git', 'branch']).decode('utf8', 'replace')
+        self._branches = []
+        for line in output.splitlines():
+            branch = line.lstrip('* ')
+            self._branches.append(branch)
+            if line.startswith('*'):
+                self._current = branch
+    
+    def branches(self):
+        return self._branches
+    
+    def current(self):
+        return self._current
+    
+    def closest_matching_to(self, branch):
+        return max(self.branches(), key=lambda b : proximity(branch, b))
+
+
+def get_relative_branch(current, relative_path):
+    current_parts = current.split('/')
+    jumps_back = relative_path.count('../')
+    assert(jumps_back >= 1)
+    start_of_path = '/'.join(current_parts[:-jumps_back])
+    rest_of_path = relative_path.lstrip('../')
+    return (start_of_path + '/' + rest_of_path).lstrip('/')
+
+
+def relaxed_checkout(*args):
+    try:
+        check_call(['git', 'checkout'] + list(args))
+    except CalledProcessError:
+        branch_getter = BranchGetter()
+        target = args[0]
+        if target.startswith('../'):
+            # relative branch name
+            target = get_relative_branch(branch_getter.current(), target)
+        # fuzzy search on branch names
+        closest = branch_getter.closest_matching_to(target)
+        proximity_ = proximity(closest, target)
+        if proximity_ > 0.6:
+            print("       you probably meant '{}' ({:.1f}%)\n".
+                    format(closest, min(100 * proximity_, 100)))
+        try:
+            check_call(["git", "checkout", closest])
+        except CalledProcessError:
+            return 1
+    
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(relaxed_checkout(*sys.argv[1:]))

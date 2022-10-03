@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+source ~/.bash_profile_sections/functions.bash
+url=$(eval "urlencode '$@'")
+open "http://www.google.com/search?q=$url"
