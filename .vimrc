@@ -957,7 +957,7 @@ set foldmethod=manual
 " -- folds are defined by syntax
 " set foldmethod=syntax
 " -- deepest fold is x levels
-set foldnestmax=6
+set foldnestmax=7
 " -- don't fold by default (so that the file isn't folded when you first open it)
 set nofoldenable
 " -- enable folding of vimscript files
