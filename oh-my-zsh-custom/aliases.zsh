@@ -9,8 +9,6 @@ fi
 
 
 # -
-# go to workspace
-alias workspace="cd ~/Programming/workspace"
 # jump to OLDPWD
 alias cdp='cd $OLDPWD'
 alias cdr='cd $(g rev-parse --show-toplevel)'
@@ -33,6 +31,7 @@ alias l="less"
 alias d="diff"
 alias f="fzf --height 40%"
 alias s='scratch'
+alias sr='scratch-rb'
 # -
 # git:
 alias g="git"
@@ -89,6 +88,7 @@ alias strip-newlines="tr -d '\n'"
 alias weather="curl http://wttr.in"
 # open vim scratch buffer (requires scratch.vim and BufOnly.vim plugins):
 alias scratch="vim +Scratchify"
+alias scratch-rb="vim +Scratchify +Ruby"
 alias todo="vim ~/.todo.md"
 alias todos="less ~/.todo.md"
 
@@ -125,7 +125,7 @@ if [ -n "$BASH" ]; then
 fi
 
 # open vim with modified files
-alias vimod="vim -p \$(git mod)"
+alias vimod="vim -p \$(git status -uno --short | ack -o '(?<=UU |.M ).+')"
 
 # -
 # reload .bash_profile
@@ -145,6 +145,8 @@ alias bashrc="bash-profile"
 alias bash-profile-local="vim ~/.bash_profile_local.bash"
 # edit ~/.zshrc
 alias zshrc="$EDITOR ~/.zshrc"
+# edit my custom zsh theme
+alias zsh-theme="$EDITOR ~/.oh-my-zsh/custom/themes/sorin-nitsas.zsh-theme"
 # edit ~/.inputrc
 alias inputrc="vim ~/.inputrc"
 # edit ~/.tmux.conf
@@ -192,40 +194,36 @@ alias bx="bundle exec"
 complete -F __bundle bx
 alias bxr="bundle exec rails"
 complete -F __rails bxr
-alias br="bin/rails"
+alias br="bxr"
 complete -F __rails br
 alias bxk="bundle exec rake"
 complete -F _rakecomplete bxk
-alias bk="bin/rake"
+alias bk="bxk"
 complete -F _rakecomplete bk
 alias bxkdm="bundle exec rake db:migrate"
-alias bkdm="bin/rake db:migrate"
+alias bkdm="bxkdm"
 # alias bxt="RAILS_ENV=test SPEC_ENV=js bundle exec teaspoon"
 # alias bxtd="RAILS_ENV=test SPEC_ENV=js bundle exec teaspoon --format='documentation'"
 # just run `yarn test`
 # alias bxt="yarn test -- --no-browsers"
 # alias bxtd="yarn test -- --no-browsers"
 alias bxs="bundle exec rspec"
-alias bxsd="bundle exec rspec --format=documentation --order=rand"
+alias bxsd="bundle exec rspec --format=documentation --order=random"
 alias bxsdo="bundle exec rspec --format=documentation --order=defined"
 alias bxru="bundle exec ruby"
-alias bru="bin/ruby"
+alias bru="bxru"
 # run current app's rails server
 alias bxrs="bundle exec rails server -b 0.0.0.0"
-alias brs="bin/rails server -b 0.0.0.0"
+alias brs="bxrs"
 alias bxrc="bundle exec rails console"
-alias brc="bin/rails console"
+alias brc="bxrc"
 alias bxrd="bundle exec rails dbconsole"
-alias brd="bin/rails dbconsole"
-alias bxrcts="bundle exec rails console test --sandbox"
-alias brcts="bin/rails console test --sandbox"
+alias brd="bxrd"
+alias bxrcts="bundle exec rails console -e test --sandbox"
+alias brcts="bxrcts"
 alias bxrg="bundle exec rails generate"
-alias brg="bin/rails generate"
+alias brg="bxrg"
 alias bxrr="bundle exec rails runner"
-alias brr="bin/rails runner"
-alias bxks="bundle exec rake spec"
-alias bks="bin/rake spec"
-alias bxkt="bundle exec rake test"
-alias bkt="bin/rake test"
+alias brr="bxrr"
 alias ys="yarn server"
 alias bxfs="bundle exec foreman start"
