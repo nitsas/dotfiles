@@ -4,6 +4,13 @@
 " To install plugins, the first time you open vim do: `:PluginInstall`
 "
 "
+" ######## Set up plugin manager ########
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+"
 "
 " ########            ########
 " ######## CHEATSHEET ########
@@ -105,27 +112,18 @@ syntax on
 
 
 "
-" ########        ########
-" ######## VUNDLE ########
-" ########        ########
+" ########                ########
+" ######## Plugin manager ########
+" ########                ########
 "
-" required to turn filetype detection off for the duration of vundle setup
-filetype off
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
 
-
-" let Vundle manage Vundle (required)
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin()
 
 " A collection of language packs for Vim.
 " - It won't affect your startup time, as scripts are loaded only on demand*.
 " - It installs and updates 100+ times faster than 100+ packages it consist of.
 " - Solid syntax and indentation support. Only the best language packs.
-Plugin 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
 " --
 " Individual language packs can be disabled as follows:
 " let g:polyglot_disabled = ['ansible']
@@ -142,34 +140,34 @@ let g:vim_markdown_new_list_item_indent = 0
 " Stop foldmethod=syntax (et al.) from bogging down your vim.
 " Folds are only recomputed on buffer save (and some other cases)
 " and foldmethod manual is used the rest of the time.
-" Plugin 'Konfekt/FastFold'
+" Plug 'Konfekt/FastFold'
 
 " Fancy fold texts
 " Folded sections show more-or-less the first line of the fold,
 " e.g. the method signature, the class name, etc.
-Plugin 'Konfekt/FoldText'
+Plug 'Konfekt/FoldText'
 
 " Syntax file for JavaScript libraries. (jQuery etc)
-" Plugin 'othree/javascript-libraries-syntax.vim'
+" Plug 'othree/javascript-libraries-syntax.vim'
 
 " Enhanced javascript syntax file.
-" Plugin 'jelera/vim-javascript-syntax'
+" Plug 'jelera/vim-javascript-syntax'
 
 " Use vim as a python ide.
 " (I also have it disabled via its settings)
 " (this is said to conflict with jedi-vim and other stuff)
-" Plugin 'klen/python-mode'
+" Plug 'klen/python-mode'
 
 " Switch between single and multi-line statements with gS/gJ.
-" Plugin 'AndrewRadev/splitjoin.vim'
+" Plug 'AndrewRadev/splitjoin.vim'
 
 " Make Vim handle line and column numbers in file names with a minimum of fuss
 " Allows you to open a specific file on a specific file via bash:
 " `vim my_file.rb:154`
-Plugin 'wsdjeg/vim-fetch'
+Plug 'wsdjeg/vim-fetch'
 
 " Asynchronous syntax checking through external checkers (needs vim 8 or neovim)
-Plugin 'w0rp/ale'
+Plug 'w0rp/ale'
 let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
 " --
 " keep the sign gutter open at all times
@@ -206,38 +204,38 @@ let g:ale_fix_on_save = 1
 
 
 " Align text using `:Tabularize /<delimiter>`
-Plugin 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 
 " Lean & mean status/tabline for vim that's light as air.
-Plugin 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 
 " A collection of themes for vim-airline (make airline play well with solarized)
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline-themes'
 
 " Precision colorscheme (solarized).
-Plugin 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 
 " Comment stuff out using `gcc` (current line) or `gc<movement>` (multi-line)
-Plugin 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 
 " A git wrapper so awesome it should be illegal.
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " Miscellaneous auto-load Vim scripts (required by vim-session).
-Plugin 'xolox/vim-misc'
+Plug 'xolox/vim-misc'
 
 " Extended session management (:mksession on steroids).
-Plugin 'xolox/vim-session'
+Plug 'xolox/vim-session'
 
 " Ruby on Rails power tools.
-Plugin 'tpope/vim-rails'
+Plug 'tpope/vim-rails'
 
 " Command-T is a Vim plug-in that provides an extremely fast "fuzzy" mechanism for:
 "   Opening files and buffers
 "   Jumping to tags and help
 "   Running commands, or previous searches and commands
 " with a minimal number of keystrokes.
-" Plugin 'wincent/command-t'
+" Plug 'wincent/command-t'
 " make <esc> work in terminal vim
 " if &term =~ "xterm" || &term =~ "screen"
 "   let g:CommandTCancelMap = ['<esc>', '<c-c>']
@@ -249,60 +247,60 @@ Plugin 'tpope/vim-rails'
 " - ys<text_object><surrounding> to add surrounding to text object
 " - S<surrounding> in visual mode
 " - surroundings: " ' ( ) [ ] { } <q> <em> <some_tag attr='val> ...
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
 " Make `.` work for tpope plugins (surround, unimpaired, commentary, and more).
-Plugin 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 
 " Pairs of handy bracket mappings
 " - [q / ]q: go to previous/next quickfix entry
 " - [Q / ]Q: go to first/last quickfix entry
 " - [e / ]e: bubble line up/down
 " - [<space> / ]<space>: insert blank line above/below
-Plugin 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired'
 
 " Vim plugin, insert or delete brackets, parens, quotes in pair
-" Plugin 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
 " Text objects for entire buffer ie/ae.
-" Plugin 'kana/vim-textobj-entire'
+" Plug 'kana/vim-textobj-entire'
 
 " Text objects for indented blocks of lines.
-" Plugin 'kana/vim-textobj-indent'
+" Plug 'kana/vim-textobj-indent'
 
 " Text objects for the current line.
-" Plugin 'kana/vim-textobj-line'
+" Plug 'kana/vim-textobj-line'
 " omap il <Plug>(textobj-line-i)
 " omap al <Plug>(textobj-line-a)
 
 " Text object for ruby blocks.
 " (use 'ir' & 'ar' for inner and outer rubyblock)
-" Plugin 'nelstrom/vim-textobj-rubyblock'
+" Plug 'nelstrom/vim-textobj-rubyblock'
 
 " Create your own text objects (required by other plugins).
-" Plugin 'kana/vim-textobj-user'
+" Plug 'kana/vim-textobj-user'
 
 " Seamless navigation between tmux panes and vim splits.
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Wisely add 'end' in ruby, endfunction/endif/more in vim script, etc
-Plugin 'tpope/vim-endwise'
+Plug 'tpope/vim-endwise'
 
 " Closes brackets. Perfect companion to vim-endwise.
 " Basically, a more conservative version of auto-pairs that only works when you press Enter.
-Plugin 'rstacruz/vim-closer'
+Plug 'rstacruz/vim-closer'
 
 " Configure tab labels within Terminal Vim with a very succinct output.
-Plugin 'mkitt/tabline.vim'
+Plug 'mkitt/tabline.vim'
 
 " Display the indention levels with thin vertical lines.
-" Plugin 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 
 " Automatically opens popup menu for completions.
-" Plugin 'vim-scripts/AutoComplPop'
+" Plug 'vim-scripts/AutoComplPop'
 
 " Perform all your vim insert mode completions with Tab.
-Plugin 'ervandew/supertab'
+Plug 'ervandew/supertab'
 
 " Using the jedi (python) autocompletion library for VIM.
 " - will show function params as you type
@@ -311,7 +309,7 @@ Plugin 'ervandew/supertab'
 " - `:Pyimport <module>` opens the <module> module
 " - completes stuff with <c-space> (configurable) - but no need since it
 "   works with <tab> as well
-Plugin 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 " --
 " use a new tab when going to a definition
 " let g:jedi#use_tabs_not_buffers = 1
@@ -339,10 +337,10 @@ let g:jedi#usages_command = ''
 " Start a * or # search from a visual block
 " (select some text using Vim's visual mode and then hit * and # to search
 " for it elsewhere in the file)
-Plugin 'nelstrom/vim-visual-star-search'
+Plug 'nelstrom/vim-visual-star-search'
 
 " Toggles between relative and absolute line numbers automatically
-" Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+" Plug 'jeffkreeftmeijer/vim-numbertoggle'
 " I've got a shortcut to turn relativenumber on/off.
 
 " A Vim plugin for indent-level based motion
@@ -354,15 +352,15 @@ Plugin 'nelstrom/vim-visual-star-search'
 "   ]+ : Move to next line of greater indent than the current line.
 "   ]= : Move to next line of same indent as the current line that is separated
 "        from the current line by lines of different indents.
-Plugin 'jeetsukumaran/vim-indentwise'
+Plug 'jeetsukumaran/vim-indentwise'
 
 " Use <c-a>/<c-x> to increment dates, times, and more
-" Plugin 'tpope/vim-speeddating'
+" Plug 'tpope/vim-speeddating'
 
 " A vim script to provide CamelCase motion through words
 " I'll use `,w` `,e` `,ge` `,b` to move across CamelCase/snake_case words.
 " `i,w` `i,e` `i,ge` `i,b` will be the text objects.
-Plugin 'bkad/CamelCaseMotion'
+Plug 'bkad/CamelCaseMotion'
 " --
 " create the mappings using ',' as the prefix
 let g:camelcasemotion_key = ','
@@ -371,13 +369,13 @@ let g:camelcasemotion_key = ','
 "   [count]["x]gr{motion} Replace {motion} text with the contents of register x.
 "   [count]["x]grr        Replace [count] lines with the contents of register x.
 "   {Visual}["x]gr        Replace the selection with the contents of register x.
-Plugin 'vim-scripts/ReplaceWithRegister'
+Plug 'vim-scripts/ReplaceWithRegister'
 
 " Ranger integration in vim and neovim
 "   use `:Ranger` to open ranger in the current file's directory
 "   use `:RangerWorkingDirectory` to open ranger in the current workspace
 "     (current workspace is the directory vim is currently `cd`ed into)
-Plugin 'francoiscabrol/ranger.vim'
+Plug 'francoiscabrol/ranger.vim'
 " --
 " open ranger instead of netrw when opening a directory
 let g:ranger_replace_netrw = 1
@@ -391,23 +389,23 @@ let g:ranger_map_keys = 0
 
 " Provide easy code formatting in Vim by integrating existing code formatters.
 " TODO: check
-" Plugin 'Chiel92/vim-autoformat'
+" Plug 'Chiel92/vim-autoformat'
 
 " A Vim plug-in that calculates the Flesch-Kincaid readability index per line.
 " Dependencies:
 " Plug-in requires the odyssey ruby library for calculating the index.
 " TODO: check
-" Plugin 'pondrejk/vim-readability'
+" Plug 'pondrejk/vim-readability'
 
 " Distraction-free writing in Vim.
 " Best served with limelight.vim.
 " TODO: check
-" Plugin 'junegunn/goyo.vim'
+" Plug 'junegunn/goyo.vim'
 
 " Hyperfocus-writing in Vim.
 " Best served with Goyo.vim. Works on 256-color terminal or on GVim.
 " TODO: check
-" Plugin 'junegunn/limelight.vim'
+" Plug 'junegunn/limelight.vim'
 
 " Unobtrusive scratch window. Inspired by scratch.vim, enhanced.
 " - `:Scratch` opens a scratch buffer in a new window (by default using the
@@ -421,7 +419,7 @@ let g:ranger_map_keys = 0
 "   or block-wise) into the scratch buffer.
 " - Both above mappings have a gS variant that clears the scratch buffer
 "   before opening it.
-Plugin 'mtth/scratch.vim'
+Plug 'mtth/scratch.vim'
 " --
 " set scratch window's height
 " (if int it means num of columns - if float it means percentage of window)
@@ -430,7 +428,7 @@ let g:scratch_height = 0.5
 
 " A bundle of fzf-based commands and mappings extracted from junegunn's .vimrc
 " (fzf installed via homebrew)
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'
 
 " TODO: make ctrl-d close the selected buffer in fzf-buffer-list
 " let g:fzf_action = {
@@ -440,10 +438,10 @@ Plugin 'junegunn/fzf.vim'
 "   \ 'ctrl-v': 'vsplit' }
 
 " React JSX syntax highlighting and indenting for vim.
-" Plugin 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
 
 " [Vim script] React JSX syntax pretty highlighting for vim.
-Plugin 'maxmellon/vim-jsx-pretty'
+Plug 'maxmellon/vim-jsx-pretty'
 let g:vim_jsx_pretty_colorful_config = 1
 
 " Auto close (X)HTML tags
@@ -451,7 +449,7 @@ let g:vim_jsx_pretty_colorful_config = 1
 " `<table` -> (press ">") -> `<table></table>` ->
 "       (press ">" again) -> cursor placed on new line between the tags
 " NOTE: Unfortunately this doesn't work with ".erb" files..
-" Plugin 'alvan/vim-closetag'
+" Plug 'alvan/vim-closetag'
 
 " A vim plugin to perform diffs on blocks of code
 " - performs diffs within the same file
@@ -465,66 +463,66 @@ let g:vim_jsx_pretty_colorful_config = 1
 "     - `[c`: (previous difference)
 "     - `do`: (diff obtain)
 "     - `dp`: (diff put)
-Plugin 'AndrewRadev/linediff.vim'
+Plug 'AndrewRadev/linediff.vim'
 
 " A smart, fast, simple, and reliable keyword completion replacement for Vim
 " (works with supertab)
-" Plugin 'szw/vim-kompleter.git'
+" Plug 'szw/vim-kompleter.git'
 
 " A super simple, super minimal, super light-weight tab-completion plugin for Vim.
-" Plugin 'ajh17/vimcompletesme'
+" Plug 'ajh17/vimcompletesme'
 
 " Provides insert mode auto-completion for quotes, parens, brackets, etc
-" Plugin 'Raimondi/delimitMate'
+" Plug 'Raimondi/delimitMate'
 
 " Emoji in Vim
-" Plugin 'junegunn/vim-emoji'
+" Plug 'junegunn/vim-emoji'
 
 " Brings physics-based smooth scrolling to the Vim world!
-" Plugin 'yuttie/comfortable-motion.vim'
+" Plug 'yuttie/comfortable-motion.vim'
 
 " Peekaboo will show you the contents of the registers on the sidebar when
 " you hit `"` or `@` in normal mode or <CTRL-R> in insert mode. The sidebar
 " is automatically closed on subsequent key strokes.
 " You can toggle fullscreen mode by pressing spacebar.
-" Plugin 'junegunn/vim-peekaboo'
+" Plug 'junegunn/vim-peekaboo'
 
 " Run your favorite search tool (ack) from Vim, with an enhanced results list.
 " - usage: `:Ack [options] {pattern} [{directories}]`
 " TODO: check (from papanikge)
-" Plugin 'mileszs/ack.vim'
+" Plug 'mileszs/ack.vim'
 
 " This plugin automatically adjusts 'shiftwidth' and 'expandtab' heuristically
 " based on the current file.
 " TODO: check (from papanikge)
-" Plugin 'tpope/vim-sleuth'
+" Plug 'tpope/vim-sleuth'
 
 " Ghetto HTML/XML mappings - Enhances surround.vim with `<% %>` etc
 " TODO: check (from papanikge)
-" Plugin 'tpope/vim-ragtag'
+" Plug 'tpope/vim-ragtag'
 
 " Better Rainbow Parentheses
 " TODO: check (from papanikge)
-" Plugin 'kien/rainbow_parentheses.vim'
+" Plug 'kien/rainbow_parentheses.vim'
 
 " The ultimate undo history visualizer for VIM
 " TODO: check (from papanikge)
-Plugin 'mbbill/undotree' ", { 'on': 'UndotreeToggle' } TODO: use this with Plug
+Plug 'mbbill/undotree' ", { 'on': 'UndotreeToggle' } TODO: use this with Plug
 
 " A REST console for Vim.
 " TODO: check (from papanikge)
-" Plugin 'diepm/vim-rest-console' ", { 'for': 'rest' }
+" Plug 'diepm/vim-rest-console' ", { 'for': 'rest' }
 
 " Do a tig in your vim
 " Usage: `:Tig` try it while the cursor is on a commit hash or anywhere else
-Plugin 'codeindulgence/vim-tig'
+Plug 'codeindulgence/vim-tig'
 command! Tgi :Tig
 
 " A simple tool for presenting slides in vim based on text files.
-" Plugin 'sotte/presenting.vim'
+" Plug 'sotte/presenting.vim'
 
 " Preview colors in source code while editing
-" Plugin 'ap/vim-css-color'
+" Plug 'ap/vim-css-color'
 
 " Vim plugin to list, select and switch between buffers.
 "
@@ -545,7 +543,7 @@ command! Tgi :Tig
 " Many other options are supported: (e.g. open in existing window/tab, or in
 " the same window; preview buffer without leaving buffer listing; "pin" the
 " buffer listing so that it is open all the time, etc. etc.)
-Plugin 'jeetsukumaran/vim-buffergator'
+Plug 'jeetsukumaran/vim-buffergator'
 
 " A Vim wrapper for running tests on different granularities.
 " - :TestNearest
@@ -553,11 +551,11 @@ Plugin 'jeetsukumaran/vim-buffergator'
 " - :TestSuite
 " - :TestLast
 " - :TestVisit
-Plugin 'vim-test/vim-test'
+Plug 'vim-test/vim-test'
 
 " Language Server Protocol support for vim and neovim.
 " Supports Ruby's solargraph gem.
-" Plugin 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+" Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 
 " let g:LanguageClient_serverCommands = {
 "     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
@@ -570,22 +568,23 @@ Plugin 'vim-test/vim-test'
 "
 " Usage: `:CSSSorting<cr>`
 " nnoremap <Leader>cs :CSSSorting<CR>
-Plugin 'bkaney/vim-postcss-sorting'
+Plug 'bkaney/vim-postcss-sorting'
 
 " all plugins must be added before the following line (required)
-call vundle#end()
+call plug#end()
 "
-" done with vundle setup - reenable filetype indent & plugin
-filetype indent on
-filetype plugin on
+" done with plugin setup - reenable filetype indent & plugin
+" filetype indent on
+" filetype plugin on
 "
 " Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to
-"                     auto-approve removal
+" PlugInstall [name ...] [#threads]: Install plugins
+" PlugUpdate [name ...] [#threads]: Install or update plugins
+" PlugClean[!]: Remove unlisted plugins (bang version will clean without prompt)
+" PlugUpgrade: Upgrade vim-plug itself
+" PlugStatus: Check the status of plugins
+" PlugDiff: Examine changes from the previous update and the pending changes
+" PlugSnapshot[!] [output path]: Generate script for restoring the current snapshot of the plugins
 
 
 "
