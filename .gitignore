@@ -2,3 +2,4 @@
 .config/ranger/bookmarks
 .config/configstore/update-notifier-npm.json
 .config/gtk-2.0
+.oh-my-zsh/custom/skroutz.zsh
