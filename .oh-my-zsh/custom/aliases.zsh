@@ -134,9 +134,9 @@ alias reload="source ~/.bash_profile"
 
 # -
 # edit this file
-alias aliases="vim ~/.bash_profile_sections/aliases.bash"
+alias aliases="vim ~/.oh-my-zsh/custom/aliases.zsh"
 # edit prompt file
-alias prompt="vim ~/.bash_profile_sections/prompt.bash"
+alias prompt="vim ~/.oh-my-zsh/custom/git-prompt.zsh"
 # edit ~/.vimrc
 alias vimrc="vim ~/.vimrc"
 # edit ~/.bash_profile (aka ~/.bashrc)
