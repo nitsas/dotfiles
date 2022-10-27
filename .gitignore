@@ -3,4 +3,5 @@
 .config/configstore/update-notifier-npm.json
 .config/gtk-2.0
 .config/gh/hosts.yml
+.config/iterm2
 .oh-my-zsh/custom/skroutz.zsh
