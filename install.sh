@@ -18,3 +18,6 @@ link_to_home '.tmux.conf'
 link_to_home '.vimrc'
 link_to_home '.zshrc'
 link_to_home '.inputrc'
+
+echo "\nNow switch iTerm2 colorscheme to 'Solarized Dark' via:"
+echo "  iTerm2 Settings > Profiles > Colors > Color Presets"
