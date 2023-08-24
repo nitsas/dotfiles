@@ -18,4 +18,3 @@ link_to_home '.tmux.conf'
 link_to_home '.vimrc'
 link_to_home '.zshrc'
 link_to_home '.inputrc'
-link_to_home '.ssh/config' "$HOME/.ssh"
