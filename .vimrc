@@ -181,6 +181,12 @@ let g:ale_linters = {
       \ 'text': ['proselint'],
       \ 'javascript': ['eslint', 'prettier'],
       \ }
+
+" - disable/ignore some linters
+let g:ale_linters_ignore = {
+      \ 'ruby': ['standardrb'],
+      \ }
+
 " --
 " enable airline ale extension
 let g:airline#extensions#ale#enabled = 1
