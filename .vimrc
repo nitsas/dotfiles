@@ -191,6 +191,13 @@ let g:ale_linters_ignore = {
 " Use `bundle exec rubocop` instead of plain `rubocop`:
 let g:ale_ruby_rubocop_executable = 'bundle'
 
+" Enable/disable auto-linting ...
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 0
+" ... on opening a file:
+" let g:ale_lint_on_enter = 0
+" g:ale_lint_on_save = 0
+
 " --
 " enable airline ale extension
 let g:airline#extensions#ale#enabled = 1
