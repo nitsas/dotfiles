@@ -740,7 +740,10 @@ endif
 let $BASH_ENV="~/.bash_profile_sections/aliases.bash"
 
 " git grep and paste results in buffer
-nnoremap <leader>gg :read<space>!git<space>grep<space>-i<space>
+" nnoremap <leader>gg :read<space>!git<space>grep<space>-i<space>
+command! -nargs=+ -complete=file Ggrep2 execute 'silent Ggrep!' <q-args> | cw | redraw!
+" command! -nargs=+ -complete=file Ggrep2 execute 'silent Ggrep!' <q-args> | cw | set modifiable | redraw!
+nnoremap <leader>gg :Ggrep2<space>-i<space>
 
 " tab in normal mode indents
 " nnoremap <tab> a<tab><esc>
