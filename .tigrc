@@ -34,7 +34,7 @@ bind generic <Ctrl-b> move-page-up
 set main-view = \
       line-number:no,interval=1 \
       id:yes \
-      date:no \
+      date:yes,width=10 \
       author:email-user,width:14 \
       commit-title:yes,graph,refs,overflow=no
 
