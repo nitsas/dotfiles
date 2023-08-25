@@ -188,6 +188,10 @@ let g:ale_linters_ignore = {
       \ }
 
 " --
+" Use `bundle exec rubocop` instead of plain `rubocop`:
+let g:ale_ruby_rubocop_executable = 'bundle'
+
+" --
 " enable airline ale extension
 let g:airline#extensions#ale#enabled = 1
 " --
