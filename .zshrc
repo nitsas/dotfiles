@@ -122,7 +122,7 @@ if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 
   autoload -Uz compinit
-  compinit -d $ZSH/cache/.zcompdump-$HOST
+  compinit -u -d $ZSH/cache/.zcompdump-$HOST
 fi
 
 source $ZSH/oh-my-zsh.sh
