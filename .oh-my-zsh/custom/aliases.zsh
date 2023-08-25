@@ -32,6 +32,7 @@ alias d="diff"
 alias f="fzf --height 40%"
 alias s='scratch'
 alias sr='scratch-rb'
+alias vg='vim +"Ggrep2 -i "'
 # -
 # git:
 alias g="git"
@@ -57,6 +58,7 @@ alias gist="gist -o"
 # (unfortunately this kills method name-completion)
 alias node-readline="NODE_NO_READLINE=1 rlwrap node"
 alias nd="node-readline"
+alias node-mjs="node --experimental-repl-await"
 
 alias npm-exec='PATH=$(npm bin):$PATH'
 
@@ -137,6 +139,7 @@ alias reload="source ~/.bash_profile"
 alias aliases="vim ~/.oh-my-zsh/custom/aliases.zsh"
 # edit prompt file
 alias prompt="vim ~/.oh-my-zsh/custom/git-prompt.zsh"
+alias prompt-settings="vim ~/.oh-my-zsh/custom/settings-for-git-prompt.zsh"
 # edit ~/.vimrc
 alias vimrc="vim ~/.vimrc"
 # edit ~/.bash_profile (aka ~/.bashrc)
@@ -227,3 +230,4 @@ alias bxrr="bundle exec rails runner"
 alias brr="bxrr"
 alias ys="yarn server"
 alias bxfs="bundle exec foreman start"
+alias bxg="bundle exec guard"
