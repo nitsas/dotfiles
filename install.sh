@@ -1,25 +1,38 @@
 dotfiles_home="$HOME/.dotfiles"
 
 function link_to_home() {
-  filename=$1
-  targetdir=${2:-$HOME}
+  name=$1
+  src="$dotfiles_home/$name"
+  targetname="${2:-$1}"
+  target="$HOME/$targetname"
 
-  if [ -e "$HOME/$filename" ]
-  then
-    echo "$HOME/$filename already exists"
+  # if [ -d "$src" ]; then
+  #   echo "$src is a directory :)"
+  #   mkdir -p "$target"
+  #   for file in $(ls "$src"); do
+  #     echo "contains: $src/$file"
+  #   done
+  #   return 0
+  # fi
+
+  if [ -e "$target" ]; then
+    echo "$target already exists"
   else
-    echo "Linking $dotfiles_home/$filename to $targetdir"
-    ln -s "$dotfiles_home/$filename" "$targetdir"
+    echo "Linking $dotfiles_home/$name to $target"
+    ln -s "$dotfiles_home/$name" "$target"
   fi
 }
 
-link_to_home '.config'
+link_to_home '.config/configstore'
+link_to_home '.config/gh'
+link_to_home '.config/pry'
+link_to_home '.config/ranger'
 link_to_home '.tmux.conf'
 link_to_home '.vimrc'
 link_to_home '.zshrc'
 link_to_home '.inputrc'
 link_to_home '.gitconfig'
-ln -s $dotfiles_home/.gitignore-global ~/.gitignore
+link_to_home '.gitignore-global' '.gitignore'
 link_to_home '.tigrc'
 link_to_home '.irbrc'
 link_to_home '.scripts'
