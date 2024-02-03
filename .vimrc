@@ -247,6 +247,29 @@ Plug 'xolox/vim-session'
 " Ruby on Rails power tools
 Plug 'tpope/vim-rails'
 
+" This plugin adds Go language support for Vim:
+" - :GoBuild, :GoInstall, :GoRun
+" - :GoTest (and :GoTestFunc for a single test)
+" - :GoDebugStart to debug with delve.
+" - Completion and many other features support via `gopls`.
+" - formatting on save keeps the cursor position and undo history.
+" - Go to symbol/declaration with :GoDef.
+" - Look up documentation with :GoDoc or :GoDocBrowser.
+" - Easily import packages via :GoImport, remove them via :GoDrop.
+" - Precise type-safe renaming of identifiers with :GoRename.
+" - See which code is covered by tests with :GoCoverage.
+" - Add or remove tags on struct fields with :GoAddTags and :GoRemoveTags.
+" - Lint your code with :GoLint or :GoMetaLinter, run your code through :GoVet to catch static errors, or make sure errors are checked with :GoErrCheck.
+" - Advanced source analysis utilizing gopls, such as :GoImplements, :GoCallees, and :GoReferrers.
+" - Integration with gopls.
+" - The gopls instance can be shared with other Vim plugins.
+" - Integration with Tagbar via gotags.
+" - Integration with Ultisnips and other snippet engines.
+"
+" WARNING: vim-polyglot only supports filetype detection and syntax highlighting,
+"          so we need this for formatting on save etc.
+Plug 'fatih/vim-go'
+
 " Tagbar is a Vim plugin that provides an easy way to browse the tags of the current file
 " and get an overview of its structure. It does this by creating a sidebar that displays
 " the ctags-generated tags of the current file, ordered by their scope. This means that
@@ -1271,6 +1294,14 @@ augroup filetypespecific
   " --
   " recognize dashes as part of keywords (e.g. in `<my-component>`)
   autocmd FileType lisp,clojure,html,xml,xhtml,haml,eruby,css,scss,sass setlocal iskeyword+=-
+  " -- go (golang):
+  autocmd FileType go setlocal tabstop=4
+  autocmd FileType go setlocal shiftwidth=4
+  autocmd FileType go setlocal softtabstop=4
+  autocmd FileType go setlocal listchars=trail:.,tab:<->
+  autocmd FileType go nnoremap <buffer> <leader>gr :GoRun<cr>
+  " -- diff:
+  autocmd FileType diff setlocal noexpandtab
 augroup END
 
 
