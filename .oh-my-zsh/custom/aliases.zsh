@@ -231,3 +231,5 @@ alias brr="bxrr"
 alias ys="yarn server"
 alias bxfs="bundle exec foreman start"
 alias bxg="bundle exec guard"
+
+alias pi="ssh raspberrypi.local"
