@@ -1,3 +1,5 @@
+#!/bin/bash
+
 dotfiles_home="$HOME/.dotfiles"
 
 function link_to_home() {
