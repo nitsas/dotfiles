@@ -244,8 +244,15 @@ Plug 'xolox/vim-misc'
 " Extended session management (:mksession on steroids).
 Plug 'xolox/vim-session'
 
-" Ruby on Rails power tools.
+" Ruby on Rails power tools
 Plug 'tpope/vim-rails'
+
+" Tagbar is a Vim plugin that provides an easy way to browse the tags of the current file
+" and get an overview of its structure. It does this by creating a sidebar that displays
+" the ctags-generated tags of the current file, ordered by their scope. This means that
+" for example methods in C++ are displayed under the class they are defined in.
+" - :TagbarToggle toggles the Tagbar window
+Plug 'preservim/tagbar'
 
 " Command-T is a Vim plug-in that provides an extremely fast "fuzzy" mechanism for:
 "   Opening files and buffers
