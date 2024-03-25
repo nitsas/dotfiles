@@ -218,6 +218,7 @@ let g:ale_fixers = {
       \ }
 let g:ale_fix_on_save = 1
 
+let g:ale_go_golangci_lint_package = 1
 
 
 " Align text using `:Tabularize /<delimiter>`
