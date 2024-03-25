@@ -1,5 +1,8 @@
+export GOPATH="$HOME/go"
+
 # If you come from bash you might have to change your $PATH.
 PATH="$PATH:$HOME/.scripts/bin:."
+PATH="$PATH:$GOPATH/bin"
 # PATH="/usr/local/sbin:/usr/local/bin:$PATH"
 export PATH
 
