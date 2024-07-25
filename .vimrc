@@ -476,6 +476,8 @@ let g:scratch_height = 0.5
 
 " A bundle of fzf-based commands and mappings extracted from junegunn's .vimrc
 " (fzf installed via homebrew)
+" Plug 'junegunn/fzf.vim', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 " TODO: make ctrl-d close the selected buffer in fzf-buffer-list
