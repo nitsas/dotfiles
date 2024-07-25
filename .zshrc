@@ -172,3 +172,7 @@ bindkey "\e[3~" delete-char
 # Enable iterm2's shell integration.
 # https://www.iterm2.com/documentation-shell-integration.html
 source ~/.iterm2_shell_integration.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
