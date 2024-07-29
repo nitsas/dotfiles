@@ -620,6 +620,18 @@ Plug 'vim-test/vim-test'
 " nnoremap <Leader>cs :CSSSorting<CR>
 Plug 'bkaney/vim-postcss-sorting'
 
+" This is a lightweight RSpec runner for Vim and MacVim.
+"
+" Add your preferred key mappings to your .vimrc file.
+" RSpec.vim mappings
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
+Plug 'thoughtbot/vim-rspec'
+let g:rspec_command = "!bundle exec rspec --format=documentation --order=random {spec}"
+command! RunNearestSpecCmd :call RunNearestSpec()
+
 " all plugins must be added before the following line (required)
 call plug#end()
 "
