@@ -945,7 +945,14 @@ endfunction
 
 function! RemoteURL()
   let l:remote = system('git remote get-url --all origin')
-  return substitute(substitute(substitute(substitute(l:remote, ":", "/", ""), "git@", "https://", ""), "\\.git", "", ""), '\n\+$', '', '')
+  if l:remote =~ "git@"
+    let l:remote = substitute(substitute(l:remote, ":", "/", ""), "git@", "https://", "")
+  endif
+  if l:remote =~ "\\.git"
+    let l:remote = substitute(l:remote, "\\.git", "", "")
+  endif
+  let l:remote = substitute(l:remote, '\n\+$', '', '')
+  return l:remote
 endfunction
 
 function! BranchName()
