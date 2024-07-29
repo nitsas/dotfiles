@@ -933,6 +933,8 @@ command! -range=% FormatRubyConsole :<line1>,<line2>s/^.*[^=]> \?/>>/e | <line1>
 command! -range=% FRC FormatRubyConsole
 command! -range=% Frc FormatRubyConsole
 
+command! FilenameCopy :let @+ = expand("%") . ":" . line(".")
+command! FilepathCopy :let @+ = expand("%:p") . ":" . line(".")
 
 
 "
