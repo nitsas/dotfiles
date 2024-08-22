@@ -47,6 +47,7 @@
   au = add -u
   d = diff
   do = diff @{upstream}
+  od = diff HEAD @{upstream}
   ds = diff --staged
   ; `$@` means "the rest of the command line arguments"
   ; dmb = !sh -c 'git diff $(git merge-base HEAD master) $@' -
