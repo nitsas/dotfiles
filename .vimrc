@@ -231,7 +231,19 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Precision colorscheme (solarized).
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
+
+" This is yet another Solarized theme for Vim.
+" It places itself half way between the original Solarized and the Flattened variant.
+" The main reason for the existence of this project is that the original Solarized
+" theme does not define guifg and guibg in terminal Vim, making it unsuitable for
+" versions of Vim supporting true-color (i.e., 24-bit color) terminals.
+" Instead, this color scheme works out of the box everywhere.
+Plug 'lifepillar/vim-solarized8'
+" For the best experience, you need:
+" - Vim >= 7.4.1799 with termguicolors set, and
+" - a terminal supporting millions of colors
+set termguicolors
 
 " Comment stuff out using `gcc` (current line) or `gc<movement>` (multi-line)
 Plug 'tpope/vim-commentary'
@@ -810,11 +822,13 @@ nnoremap <leader>gg :Ggrep2<space>-i<space>
 " tab in normal mode indents
 " nnoremap <tab> a<tab><esc>
 
-" choose a colorscheme
-colorscheme solarized
-" colorscheme base16-default-dark
 " set the background
 set background=dark
+" choose a colorscheme
+" colorscheme solarized
+" colorscheme base16-default-dark
+" let g:solarized_termcolors=256
+colorscheme solarized8
 
 " persistent undo (after quitting)
 " (maintain undo history between sessions)
