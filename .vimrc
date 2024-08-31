@@ -734,7 +734,8 @@ set breakindent
 set rtp+=/usr/local/opt/fzf
 
 " make copy and paste (outside vim) play well with vim's yank, paste etc
-set clipboard=unnamed
+" (`unnamed` is for macOS, `unnamedplus` is for Ubuntu)
+set clipboard=unnamed,unnamedplus
 
 " when (de)indenting don't lose selection after moving block
 vnoremap < <gv
