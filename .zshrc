@@ -177,14 +177,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# If command pbcopy doesn't exist but wl-copy exists, alias pbcopy to it.
-# (For Ubuntu 24 with package wl-clipboard.)
-if ! type pbcopy > /dev/null && type wl-copy > /dev/null; then
-  alias pbcopy=wl-copy
-fi
-
-# If command pbpaste doesn't exist but wl-paste exists, alias pbpaste to it.
-# (For Ubuntu 24 with package wl-clipboard.)
-if ! type pbpaste > /dev/null && type wl-paste > /dev/null; then
-  alias pbpaste=wl-paste
+# Tell tmux which command it can use to copy to system clipboard
+if type pbcopy > /dev/null; then
+  export TMUX_COPY_COMMAND=pbcopy
+elif type wl-copy > /dev/null; then
+  export TMUX_COPY_COMMAND=wl-copy
+else
+  echo 'Did not find command `pbcopy` nor `wl-copy`. tmux will not be able to copy to clipboard!'
 fi
