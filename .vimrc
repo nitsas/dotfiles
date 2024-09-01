@@ -1755,8 +1755,8 @@ highlight Folded term=bold cterm=bold
 
 " other highlight groups: LineNR, Folded, FoldColumn
 " default highlighting for SpecialKey and NonText highlight groups
-highlight SpecialKey ctermfg=236 ctermbg=8
-highlight NonText    ctermfg=236 ctermbg=8
+highlight SpecialKey ctermfg=235 ctermbg=234 guifg=#073642 guibg=#002b36
+highlight NonText    ctermfg=235 ctermbg=234 guifg=#073642 guibg=#002b36
 
 " color background after ColorColumn normal
 highlight ColorColumn ctermbg=0
