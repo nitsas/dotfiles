@@ -14,9 +14,9 @@
 # -
 # copy current commit's id to the clipboard (OSX) by pressing:
 # 7 (for the full id)
-bind generic 7 !@sh -c "printf %(commit) | pbcopy"
+bind generic 7 !@sh -c "printf %(commit) | $CMD_COPY_TO_CLIPBOARD"
 # 8 (for the short commit id)
-bind generic 8 !@sh -c "printf '%.8s' %(commit) | pbcopy"
+bind generic 8 !@sh -c "printf '%.8s' %(commit) | $CMD_COPY_TO_CLIPBOARD"
 # copy current commit's id to the clipboard (non OSX)
 # bind generic 7 !@sh -c "echo -n %(commit) | xclip -selection c"
 
