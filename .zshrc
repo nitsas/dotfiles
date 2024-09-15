@@ -179,9 +179,9 @@ export NVM_DIR="$HOME/.nvm"
 
 # Tell tmux which command it can use to copy to system clipboard
 if type pbcopy > /dev/null; then
-  export TMUX_COPY_COMMAND=pbcopy
+  export CMD_COPY_TO_CLIPBOARD=pbcopy
 elif type wl-copy > /dev/null; then
-  export TMUX_COPY_COMMAND=wl-copy
+  export CMD_COPY_TO_CLIPBOARD=wl-copy
 else
   echo 'Did not find command `pbcopy` nor `wl-copy`. tmux will not be able to copy to clipboard!'
 fi
