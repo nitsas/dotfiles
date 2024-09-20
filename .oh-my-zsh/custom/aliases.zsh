@@ -233,3 +233,9 @@ alias bxfs="bundle exec foreman start"
 alias bxg="bundle exec guard"
 
 alias pi="ssh raspberrypi.local"
+
+# Dockerized Rails CLI. See https://github.com/rails/docked
+#
+# First make sure you've created a docker volume to cache bundler stuff:
+# `docker volume create ruby-bundle-cache`
+alias docked='docker run --rm -it -v ${PWD}:/rails -u $(id -u):$(id -g) -v ruby-bundle-cache:/bundle -p 3000:3000 ghcr.io/rails/cli'
