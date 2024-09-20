@@ -81,3 +81,40 @@ cd
 
 # Check Ubuntu version via command line
 # lsb_release -a
+
+
+# --- Install docker
+# https://www.jpaul.me/2024/07/how-to-install-docker-on-a-raspberry-pi-5/
+
+echo '[STEP] Installing docker prerequisites...'
+
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+echo '[STEP] Installing docker...'
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+echo '[STEP] To run docker commands without sudo, add yourself to group "docker"...'
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+echo '[STEP] Checking if docker works...'
+docker run hello-world
+
+echo '[STEP] Install docker-compose in place of "docker compose"...'
+sudo touch /usr/bin/docker-compose
+echo 'docker compose --compatibility "$@"' | sudo tee /usr/bin/docker-compose
+sudo chmod +x /usr/bin/docker-compose
