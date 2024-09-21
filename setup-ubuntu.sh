@@ -27,7 +27,8 @@ sudo apt-get install \
   vim-gtk3     \ # enable vim to talk to the system clipboard
   wl-clipboard \ # wl-copy & wl-paste utilities to connect tmux to system clipboard
   golang-go    \ # Go language
-  gopls          # Go language server for editor code completion
+  gopls        \ # Go language server for editor code completion
+  ack            # Needed for alias `vimod`
 
 
 # --- Set up Zsh as my default shell
