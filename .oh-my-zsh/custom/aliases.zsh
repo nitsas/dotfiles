@@ -236,3 +236,6 @@ alias pi="ssh raspberrypi.local"
 # First make sure you've created a docker volume to cache bundler stuff:
 # `docker volume create ruby-bundle-cache`
 alias docked='docker run --rm -it -v ${PWD}:/rails -u $(id -u):$(id -g) -v ruby-bundle-cache:/bundle -p 3000:3000 ghcr.io/rails/cli'
+
+alias dc="docker compose"
+alias d="docker"
