@@ -122,3 +122,5 @@
 	rebase = true
 [remote "origin"]
 	prune = true
+[init]
+	defaultBranch = main
