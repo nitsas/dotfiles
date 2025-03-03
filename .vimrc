@@ -825,10 +825,10 @@ nnoremap <leader>gg :Ggrep2<space>-i<space>
 
 " set the background
 set background=dark
+let g:solarized_termcolors=256
 " choose a colorscheme
 " colorscheme solarized
 " colorscheme base16-default-dark
-" let g:solarized_termcolors=256
 colorscheme solarized8
 
 " persistent undo (after quitting)
