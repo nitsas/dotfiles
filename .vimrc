@@ -491,6 +491,11 @@ let g:scratch_height = 0.5
 " Plug 'junegunn/fzf.vim', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+" --
+let g:fzf_vim = {}
+let g:fzf_vim.buffers_jump = 1
+" let g:fzf_vim.buffers_options = '--style full --border-label " Open Buffers "'
+let g:fzf_vim.buffers_options = '--border-label " Open Buffers "'
 
 " TODO: make ctrl-d close the selected buffer in fzf-buffer-list
 " let g:fzf_action = {
@@ -605,7 +610,10 @@ command! Tgi :Tig
 " Many other options are supported: (e.g. open in existing window/tab, or in
 " the same window; preview buffer without leaving buffer listing; "pin" the
 " buffer listing so that it is open all the time, etc. etc.)
-Plug 'jeetsukumaran/vim-buffergator'
+"
+" NOTE: Use fzf's :Buffers command instead.
+"
+" Plug 'jeetsukumaran/vim-buffergator'
 
 " A Vim wrapper for running tests on different granularities.
 " - :TestNearest
@@ -734,7 +742,7 @@ nnoremap <silent> <C-m> :set number!<cr>:set relativenumber!<cr>
 set breakindent
 
 " enable use of fzf (fuzzy finder)
-set rtp+=/usr/local/opt/fzf
+" set rtp+=/usr/local/opt/fzf
 
 " make copy and paste (outside vim) play well with vim's yank, paste etc
 " (`unnamed` is for macOS, `unnamedplus` is for Ubuntu)
@@ -761,7 +769,7 @@ nnoremap <leader>* *
 nnoremap * g*
 
 " list all buffers and get ready to switch to one of them
-" nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>b :Buffers<cr>
 
 " if a file has been detected to be changed outside vim reread it
 " (throws an error if the file was deleted outside vim)
