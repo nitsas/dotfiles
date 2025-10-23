@@ -1712,10 +1712,10 @@ let g:kompleter_replace_standard_mappings = 0
 
 " Enable code folding for javascript based on our syntax file.
 " Please note this can have a dramatic effect on performance.
-augroup javascript_folding
-  autocmd!
-  autocmd FileType javascript setlocal foldmethod=syntax
-augroup END
+" augroup javascript_folding
+"   autocmd!
+"   autocmd FileType javascript setlocal foldmethod=syntax
+" augroup END
 
 
 
