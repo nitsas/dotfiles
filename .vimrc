@@ -649,17 +649,30 @@ Plug 'vim-test/vim-test'
 " nnoremap <Leader>cs :CSSSorting<CR>
 Plug 'bkaney/vim-postcss-sorting'
 
-" This is a lightweight RSpec runner for Vim and MacVim.
-"
-" Add your preferred key mappings to your .vimrc file.
-" RSpec.vim mappings
-" map <Leader>t :call RunCurrentSpecFile()<CR>
-" map <Leader>s :call RunNearestSpec()<CR>
-" map <Leader>l :call RunLastSpec()<CR>
-" map <Leader>a :call RunAllSpecs()<CR>
-Plug 'thoughtbot/vim-rspec'
-let g:rspec_command = "!bundle exec rspec --format=documentation --order=random {spec}"
-command! RunNearestSpecCmd :call RunNearestSpec()
+if has('nvim')
+  Plug 'h3pei/rspec.nvim'
+
+  " Commands:
+  " :RSpecNearest -- Run rspec on the example nearest to the cursor position.
+  " :RSpecShowLastResult -- Show last spec result on floating window.
+  " :RSpecCurrentFile -- Run rspec on the current file.
+  " :RSpecRerun -- Rerun rspec with the last command.
+  " :RSpecOnlyFailures -- Run rspec on the current file with --only-failures option. 1
+  " :RSpecAbort -- Abort running rspec.
+  " :RSpecJump, :RSpecJump! -- Jump from product code file to spec file (or vice versa). With !, if the file to jump to does not exist, attempt to create and then jump to it.
+else
+  " This is a lightweight RSpec runner for Vim and MacVim.
+  "
+  " Add your preferred key mappings to your .vimrc file.
+  " RSpec.vim mappings
+  " map <Leader>t :call RunCurrentSpecFile()<CR>
+  " map <Leader>s :call RunNearestSpec()<CR>
+  " map <Leader>l :call RunLastSpec()<CR>
+  " map <Leader>a :call RunAllSpecs()<CR>
+  Plug 'thoughtbot/vim-rspec'
+  let g:rspec_command = "!bundle exec rspec --format=documentation --order=random {spec}"
+  command! RunNearestSpecCmd :call RunNearestSpec()
+endif
 
 " GitHub Copilot is an AI pair programmer tool that helps you write code faster and smarter.
 Plug 'github/copilot.vim'
@@ -680,6 +693,11 @@ call plug#end()
 " PlugDiff: Examine changes from the previous update and the pending changes
 " PlugSnapshot[!] [output path]: Generate script for restoring the current snapshot of the plugins
 
+if has('nvim')
+  lua require('rspec').setup({
+        \ formatter = "documentation"
+        \ })
+end
 
 "
 " ########                     ########
