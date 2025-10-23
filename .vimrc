@@ -140,7 +140,7 @@ let g:vim_markdown_new_list_item_indent = 0
 " Stop foldmethod=syntax (et al.) from bogging down your vim.
 " Folds are only recomputed on buffer save (and some other cases)
 " and foldmethod manual is used the rest of the time.
-" Plug 'Konfekt/FastFold'
+Plug 'Konfekt/FastFold'
 
 " Fancy fold texts
 " Folded sections show more-or-less the first line of the fold,
