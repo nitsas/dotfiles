@@ -167,58 +167,67 @@ Plug 'Konfekt/FoldText'
 Plug 'wsdjeg/vim-fetch'
 
 " Asynchronous syntax checking through external checkers (needs vim 8 or neovim)
-Plug 'w0rp/ale'
-let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
-" --
-" keep the sign gutter open at all times
-let g:ale_sign_column_always = 1
-" --
-" Limit which linters to run for specific filetypes:
-" - limit html to 'tidy'
-" - enable linting for text ('proselint') (text linters disabled by default)
-let g:ale_linters = {
-      \ 'html': ['tidy'],
-      \ 'text': ['proselint'],
-      \ 'javascript': ['eslint', 'prettier'],
-      \ }
+if !has('nvim')
+  Plug 'dense-analysis/ale'
+  let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
+  " --
+  " keep the sign gutter open at all times
+  let g:ale_sign_column_always = 1
+  " --
+  " Limit which linters to run for specific filetypes:
+  " - limit html to 'tidy'
+  " - enable linting for text ('proselint') (text linters disabled by default)
+  let g:ale_linters = {
+        \ 'html': ['tidy'],
+        \ 'text': ['proselint'],
+        \ 'javascript': ['eslint', 'prettier'],
+        \ 'eruby': ['erb_lint'],
+        \ }
+  " --
+  " Disable/ignore some linters
+  let g:ale_linters_ignore = {
+        \ 'ruby': ['standardrb'],
+        \ }
 
-" - disable/ignore some linters
-let g:ale_linters_ignore = {
-      \ 'ruby': ['standardrb'],
-      \ }
+  " --
+  " Use `bundle exec rubocop` instead of plain `rubocop`:
+  let g:ale_ruby_rubocop_executable = 'bundle'
 
-" --
-" Use `bundle exec rubocop` instead of plain `rubocop`:
-let g:ale_ruby_rubocop_executable = 'bundle'
+  " Enable/disable auto-linting ...
+  " let g:ale_lint_on_text_changed = 'never'
+  " let g:ale_lint_on_insert_leave = 0
+  " ... on opening a file:
+  " let g:ale_lint_on_enter = 0
+  " g:ale_lint_on_save = 0
 
-" Enable/disable auto-linting ...
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_lint_on_insert_leave = 0
-" ... on opening a file:
-" let g:ale_lint_on_enter = 0
-" g:ale_lint_on_save = 0
+  " --
+  " enable airline ale extension
+  let g:airline#extensions#ale#enabled = 1
+  " --
+  " don't underline the segment of the line that has the error/warning
+  let g:ale_set_highlights = 0
+  " --
+  " disable ale for ruby files under yogurt
+  " let g:ale_pattern_options = {
+  "       \ 'yogurt/.*\.rb': { 'ale_enabled': 0 },
+  "       \ 'yogurt/.*\.erb': { 'ale_enabled': 0 },
+  "       \ }
+  " --
+  " ALE can fix files with the :ALEFix command.
+  " - Example: `:ALEFix stylelint`.
+  " - Command :ALEFixSuggest will suggest some supported tools for fixing code.
+  let g:ale_fixers = {
+        \ 'javascript': ['prettier', 'eslint'],
+        \ 'css': ['stylelint'],
+        \ 'scss': ['stylelint'],
+        \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+        \ }
+  " --
+  " Set this variable to 1 to fix files when you save them.
+  let g:ale_fix_on_save = 1
 
-" --
-" enable airline ale extension
-let g:airline#extensions#ale#enabled = 1
-" --
-" don't underline the segment of the line that has the error/warning
-let g:ale_set_highlights = 0
-" --
-" disable ale for ruby files under yogurt
-" let g:ale_pattern_options = {
-"       \ 'yogurt/.*\.rb': { 'ale_enabled': 0 },
-"       \ 'yogurt/.*\.erb': { 'ale_enabled': 0 },
-"       \ }
-" --
-" Fixers for command :ALEFix
-let g:ale_fixers = {
-      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'javascript': ['eslint', 'prettier'],
-      \ }
-let g:ale_fix_on_save = 1
-
-let g:ale_go_golangci_lint_package = 1
+  let g:ale_go_golangci_lint_package = 1
+endif
 
 
 " Align text using `:Tabularize /<delimiter>`
