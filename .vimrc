@@ -644,6 +644,9 @@ Plug 'thoughtbot/vim-rspec'
 let g:rspec_command = "!bundle exec rspec --format=documentation --order=random {spec}"
 command! RunNearestSpecCmd :call RunNearestSpec()
 
+" GitHub Copilot is an AI pair programmer tool that helps you write code faster and smarter.
+Plug 'github/copilot.vim'
+
 " all plugins must be added before the following line (required)
 call plug#end()
 "
