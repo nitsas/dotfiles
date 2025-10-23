@@ -94,6 +94,7 @@
   mb = !sh -c 'git merge-base HEAD ${1:-master}' -
   ; from mkousta: clean merged branches
   clean-merged = !git branch --merged master | grep -v master | xargs git branch -d
+  pushf = push --force-with-lease
 [mergetool]
   keepBackup = false
 [mergetool "diffconflicts"]
