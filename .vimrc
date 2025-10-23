@@ -1224,9 +1224,12 @@ nnoremap <leader>gs :Scratch<cr>
 set formatoptions+=w  " don't break words when wrapping lines
 " let &colorcolumn=join(range(81,999),',')    " color from xth column onwards
 set colorcolumn=100
-" pressing <F4> while in insert mode will toggle paste-mode
-" (i.e. no autoindent)
-set pastetoggle=<F4>
+if !has('nvim')
+  " pressing <F4> while in insert mode will toggle paste-mode
+  " (i.e. no autoindent)
+  " Not needed in neovim.
+  set pastetoggle=<F4>
+endif
 set wildmenu          " when autocompleting commands, show menu of choices
 set laststatus=2      " always show a status line (even on single window)
 " when autocompleting, don't scan all included files (faster)
