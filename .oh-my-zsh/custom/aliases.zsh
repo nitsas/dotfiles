@@ -24,7 +24,9 @@ alias ip="ipython"
 # -
 # command shortcuts
 alias v="vim"
-alias vf='vim +FZF!'
+alias vf="vim +FZF!"
+alias n="nvim"
+alias nf="nvim +FZF!"
 alias r="ranger"
 alias f="fzf --height 40%"
 alias s='scratch'
@@ -125,6 +127,7 @@ fi
 
 # open vim with modified files
 alias vimod="vim -p \$(git status -uno --short | ack -o '(?<=UU |.M ).+')"
+alias nimod="nvim -p \$(git status -uno --short | ack -o '(?<=UU |.M ).+')"
 
 # -
 # reload .bash_profile
