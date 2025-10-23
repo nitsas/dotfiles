@@ -677,6 +677,11 @@ endif
 " GitHub Copilot is an AI pair programmer tool that helps you write code faster and smarter.
 Plug 'github/copilot.vim'
 
+if has('nvim')
+  " Nvim needs node v22+
+  let g:copilot_node_command = "/Users/nitsas/.nvm/versions/node/v25.0.0/bin/node"
+endif
+
 " all plugins must be added before the following line (required)
 call plug#end()
 "
