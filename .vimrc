@@ -680,6 +680,10 @@ Plug 'github/copilot.vim'
 if has('nvim')
   " Nvim needs node v22+
   let g:copilot_node_command = "/Users/nitsas/.nvm/versions/node/v25.0.0/bin/node"
+
+  " For copilot chat:
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'CopilotC-Nvim/CopilotChat.nvim'
 endif
 
 " all plugins must be added before the following line (required)
@@ -702,6 +706,8 @@ if has('nvim')
   lua require('rspec').setup({
         \ formatter = "documentation"
         \ })
+
+  lua require('CopilotChat').setup()
 end
 
 "
