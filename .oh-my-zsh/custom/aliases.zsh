@@ -86,9 +86,9 @@ alias strip-newlines="tr -d '\n'"
 # (request http://wttr.in/<city> or let it geolocate me)
 alias weather="curl http://wttr.in"
 # open vim scratch buffer (requires scratch.vim and BufOnly.vim plugins):
-alias scratch="vim +Scratchify"
-alias scratch-rb="vim +Scratchify +Ruby"
-alias todo="vim ~/.todo.md"
+alias scratch="$EDITOR +Scratchify"
+alias scratch-rb="$EDITOR +Scratchify +Ruby"
+alias todo="$EDITOR ~/.todo.md"
 alias todos="less ~/.todo.md"
 
 
@@ -133,41 +133,41 @@ alias reload="source ~/.bash_profile"
 
 # -
 # edit this file
-alias aliases="vim ~/.oh-my-zsh/custom/aliases.zsh"
+alias aliases="$EDITOR ~/.oh-my-zsh/custom/aliases.zsh"
 # edit prompt file
-alias prompt="vim ~/.oh-my-zsh/custom/git-prompt.zsh"
-alias prompt-settings="vim ~/.oh-my-zsh/custom/settings-for-git-prompt.zsh"
+alias prompt="$EDITOR ~/.oh-my-zsh/custom/git-prompt.zsh"
+alias prompt-settings="$EDITOR ~/.oh-my-zsh/custom/settings-for-git-prompt.zsh"
 # edit ~/.vimrc
-alias vimrc="vim ~/.vimrc"
+alias vimrc="$EDITOR ~/.vimrc"
 # edit ~/.bash_profile (aka ~/.bashrc)
-alias bash-profile="vim ~/.bash_profile"
+alias bash-profile="$EDITOR ~/.bash_profile"
 alias bashrc="bash-profile"
-alias bash-profile-local="vim ~/.bash_profile_local.bash"
+alias bash-profile-local="$EDITOR ~/.bash_profile_local.bash"
 # edit ~/.zshrc
 alias zshrc="$EDITOR ~/.zshrc"
 # edit my custom zsh theme
 alias zsh-theme="$EDITOR ~/.oh-my-zsh/custom/themes/sorin-nitsas.zsh-theme"
 # edit ~/.inputrc
-alias inputrc="vim ~/.inputrc"
+alias inputrc="$EDITOR ~/.inputrc"
 # edit ~/.tmux.conf
-alias tmux.conf="vim ~/.tmux.conf"
+alias tmux.conf="$EDITOR ~/.tmux.conf"
 alias tmuxrc="tmux.conf"
 # edit ~/.gitconfig
-alias gitconfig="vim ~/.gitconfig"
+alias gitconfig="$EDITOR ~/.gitconfig"
 alias gitrc="gitconfig"
 # edit ~/.tigrc
-alias tigrc="vim ~/.tigrc"
+alias tigrc="$EDITOR ~/.tigrc"
 # edit ~/.ptpython/config.py
-alias ptpythonrc="vim ~/.ptpython/config.py"
+alias ptpythonrc="$EDITOR ~/.ptpython/config.py"
 alias ptprc="ptpythonrc"
 # edit ~/.ipython/profile_default/ipython_config.py
-alias ipythonrc="vim ~/.ipython/profile_default/ipython_config.py"
+alias ipythonrc="$EDITOR ~/.ipython/profile_default/ipython_config.py"
 alias iprc="ipythonrc"
 # edit ~/.pryrc
-alias pryrc="vim ~/.pryrc"
+alias pryrc="$EDITOR ~/.pryrc"
 
 # -
-alias til="vim $TILFILE"
+alias til="$EDITOR $TILFILE"
 
 # -
 # airport for retrieving wep/wpa keys
