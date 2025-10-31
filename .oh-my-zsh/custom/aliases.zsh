@@ -23,12 +23,12 @@ alias pti="ptipython"
 alias ip="ipython"
 # -
 # command shortcuts
-alias v="vim"
-alias vf="vim +FZF!"
+alias f="fzf --height 40%"
+alias v="$EDITOR"
+alias vf='$EDITOR $(f)'
 alias n="nvim"
 alias nf="nvim +FZF!"
 alias r="ranger"
-alias f="fzf --height 40%"
 alias s='scratch'
 alias sr='scratch-rb'
 alias vg='vim +"Ggrep2 -i "'
