@@ -80,8 +80,7 @@ alias lla="ls -lHhAp"
 alias mv="mv -i "
 # prettify json:
 # (needs https://github.com/ddopson/underscore-cli)
-alias prettify-json="underscore pretty"
-alias prettify-json-no-color="underscore print"
+alias prettify-json="jsonpp"
 # replace newlines with spaces:
 alias newlines-to-spaces="tr '\n' ' '"
 alias strip-newlines="tr -d '\n'"
