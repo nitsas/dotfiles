@@ -23,7 +23,8 @@ alias pti="ptipython"
 alias ip="ipython"
 # -
 # command shortcuts
-alias f="fzf --height 40%"
+# alias f="fzf --height 40%"
+alias f="fzf"
 alias v="$EDITOR"
 alias vf='$EDITOR $(f)'
 alias n="nvim"
