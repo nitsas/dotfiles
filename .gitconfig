@@ -32,6 +32,7 @@
   ; the first three are on by default - maybe I don't have to use them here
   whitespace = blank-at-eol,blank-at-eof,space-before-tab,tab-in-indent
   quotePath = false
+  pager = less -i
 [alias]
   st = stash
   b = branch
