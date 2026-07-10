@@ -267,6 +267,27 @@ Plug 'xolox/vim-session'
 " Ruby on Rails power tools
 Plug 'tpope/vim-rails'
 
+" Teach vim-rails that the alternate file for a controller is the request spec under spec/requests/...
+let g:rails_projections = {
+      \   "app/controllers/*_controller.rb": {
+      \     "test": [
+      \       "spec/requests/{}_controller_spec.rb",
+      \       "spec/controllers/{}_controller_spec.rb"
+      \     ],
+      \     "related": "spec/controllers/{}_controller_spec.rb",
+      \   },
+      \   "spec/requests/*_controller_spec.rb": {
+      \     "alternate": "app/controllers/{}_controller.rb",
+      \     "related": "spec/controllers/{}_controller_spec.rb",
+      \   },
+      \   "kafka/*_consumer.rb": {
+      \     "test": "spec/kafka/{}_consumer_spec.rb",
+      \   },
+      \   "spec/kafka/*_consumer_spec.rb": {
+      \     "alternate": "kafka/{}_consumer.rb",
+      \   },
+      \ }
+
 " This plugin adds Go language support for Vim:
 " - :GoBuild, :GoInstall, :GoRun
 " - :GoTest (and :GoTestFunc for a single test)
