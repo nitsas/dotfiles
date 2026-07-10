@@ -610,8 +610,12 @@ Plug 'mbbill/undotree' ", { 'on': 'UndotreeToggle' } TODO: use this with Plug
 
 " Do a tig in your vim
 " Usage: `:Tig` try it while the cursor is on a commit hash or anywhere else
-Plug 'codeindulgence/vim-tig'
-command! Tgi :Tig
+" Plug 'codeindulgence/vim-tig'
+" command! Tgi :Tig
+
+" Vim plugin to use Tig as a git client.
+Plug 'rbgrouleff/bclose.vim'
+Plug 'iberianpig/tig-explorer.vim'
 
 " A simple tool for presenting slides in vim based on text files.
 " Plug 'sotte/presenting.vim'
