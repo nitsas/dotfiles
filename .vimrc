@@ -167,67 +167,65 @@ Plug 'Konfekt/FoldText'
 Plug 'wsdjeg/vim-fetch'
 
 " Asynchronous syntax checking through external checkers (needs vim 8 or neovim)
-if !has('nvim')
-  Plug 'dense-analysis/ale'
-  let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
-  " --
-  " keep the sign gutter open at all times
-  let g:ale_sign_column_always = 1
-  " --
-  " Limit which linters to run for specific filetypes:
-  " - limit html to 'tidy'
-  " - enable linting for text ('proselint') (text linters disabled by default)
-  let g:ale_linters = {
-        \ 'html': ['tidy'],
-        \ 'text': ['proselint'],
-        \ 'javascript': ['eslint', 'prettier'],
-        \ 'eruby': ['erb_lint'],
-        \ }
-  " --
-  " Disable/ignore some linters
-  let g:ale_linters_ignore = {
-        \ 'ruby': ['standardrb'],
-        \ }
+Plug 'dense-analysis/ale'
+let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
+" --
+" keep the sign gutter open at all times
+let g:ale_sign_column_always = 1
+" --
+" Limit which linters to run for specific filetypes:
+" - limit html to 'tidy'
+" - enable linting for text ('proselint') (text linters disabled by default)
+let g:ale_linters = {
+      \ 'html': ['tidy'],
+      \ 'text': ['proselint'],
+      \ 'javascript': ['eslint', 'prettier'],
+      \ 'eruby': ['erb_lint'],
+      \ }
+" --
+" Disable/ignore some linters
+let g:ale_linters_ignore = {
+      \ 'ruby': ['standardrb'],
+      \ }
 
-  " --
-  " Use `bundle exec rubocop` instead of plain `rubocop`:
-  let g:ale_ruby_rubocop_executable = 'bundle'
+" --
+" Use `bundle exec rubocop` instead of plain `rubocop`:
+let g:ale_ruby_rubocop_executable = 'bundle'
 
-  " Enable/disable auto-linting ...
-  " let g:ale_lint_on_text_changed = 'never'
-  " let g:ale_lint_on_insert_leave = 0
-  " ... on opening a file:
-  " let g:ale_lint_on_enter = 0
-  " g:ale_lint_on_save = 0
+" Enable/disable auto-linting ...
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 0
+" ... on opening a file:
+" let g:ale_lint_on_enter = 0
+" g:ale_lint_on_save = 0
 
-  " --
-  " enable airline ale extension
-  let g:airline#extensions#ale#enabled = 1
-  " --
-  " don't underline the segment of the line that has the error/warning
-  let g:ale_set_highlights = 0
-  " --
-  " disable ale for ruby files under yogurt
-  " let g:ale_pattern_options = {
-  "       \ 'yogurt/.*\.rb': { 'ale_enabled': 0 },
-  "       \ 'yogurt/.*\.erb': { 'ale_enabled': 0 },
-  "       \ }
-  " --
-  " ALE can fix files with the :ALEFix command.
-  " - Example: `:ALEFix stylelint`.
-  " - Command :ALEFixSuggest will suggest some supported tools for fixing code.
-  let g:ale_fixers = {
-        \ 'javascript': ['prettier', 'eslint'],
-        \ 'css': ['stylelint'],
-        \ 'scss': ['stylelint'],
-        \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-        \ }
-  " --
-  " Set this variable to 1 to fix files when you save them.
-  let g:ale_fix_on_save = 1
+" --
+" enable airline ale extension
+let g:airline#extensions#ale#enabled = 1
+" --
+" don't underline the segment of the line that has the error/warning
+let g:ale_set_highlights = 0
+" --
+" disable ale for ruby files under yogurt
+" let g:ale_pattern_options = {
+"       \ 'yogurt/.*\.rb': { 'ale_enabled': 0 },
+"       \ 'yogurt/.*\.erb': { 'ale_enabled': 0 },
+"       \ }
+" --
+" ALE can fix files with the :ALEFix command.
+" - Example: `:ALEFix stylelint`.
+" - Command :ALEFixSuggest will suggest some supported tools for fixing code.
+let g:ale_fixers = {
+      \ 'javascript': ['prettier', 'eslint'],
+      \ 'css': ['stylelint'],
+      \ 'scss': ['stylelint'],
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ }
+" --
+" Set this variable to 1 to fix files when you save them.
+let g:ale_fix_on_save = 1
 
-  let g:ale_go_golangci_lint_package = 1
-endif
+let g:ale_go_golangci_lint_package = 1
 
 
 " Align text using `:Tabularize /<delimiter>`
@@ -649,42 +647,23 @@ Plug 'vim-test/vim-test'
 " nnoremap <Leader>cs :CSSSorting<CR>
 Plug 'bkaney/vim-postcss-sorting'
 
-if has('nvim')
-  Plug 'h3pei/rspec.nvim'
-
-  " Commands:
-  " :RSpecNearest -- Run rspec on the example nearest to the cursor position.
-  " :RSpecShowLastResult -- Show last spec result on floating window.
-  " :RSpecCurrentFile -- Run rspec on the current file.
-  " :RSpecRerun -- Rerun rspec with the last command.
-  " :RSpecOnlyFailures -- Run rspec on the current file with --only-failures option. 1
-  " :RSpecAbort -- Abort running rspec.
-  " :RSpecJump, :RSpecJump! -- Jump from product code file to spec file (or vice versa). With !, if the file to jump to does not exist, attempt to create and then jump to it.
-else
-  " This is a lightweight RSpec runner for Vim and MacVim.
-  "
-  " Add your preferred key mappings to your .vimrc file.
-  " RSpec.vim mappings
-  " map <Leader>t :call RunCurrentSpecFile()<CR>
-  " map <Leader>s :call RunNearestSpec()<CR>
-  " map <Leader>l :call RunLastSpec()<CR>
-  " map <Leader>a :call RunAllSpecs()<CR>
-  Plug 'thoughtbot/vim-rspec'
-  let g:rspec_command = "!bundle exec rspec --format=documentation --order=random {spec}"
-  command! RunNearestSpecCmd :call RunNearestSpec()
-endif
+" This is a lightweight RSpec runner for Vim and MacVim.
+"
+" Add your preferred key mappings to your .vimrc file.
+" RSpec.vim mappings
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
+Plug 'thoughtbot/vim-rspec'
+let g:rspec_command = "!bundle exec rspec --format=documentation --order=random {spec}"
+command! RunNearestSpecCmd :call RunNearestSpec()
 
 " GitHub Copilot is an AI pair programmer tool that helps you write code faster and smarter.
 Plug 'github/copilot.vim'
 
-if has('nvim')
-  " Nvim needs node v22+
-  let g:copilot_node_command = "/Users/nitsas/.nvm/versions/node/v25.0.0/bin/node"
-
-  " For copilot chat:
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'CopilotC-Nvim/CopilotChat.nvim'
-endif
+" Copilot needs node v22+
+" let g:copilot_node_command = "/Users/nitsas/.local/share/mise/installs/node/24.11.0/bin/node"
 
 " all plugins must be added before the following line (required)
 call plug#end()
@@ -701,14 +680,6 @@ call plug#end()
 " PlugStatus: Check the status of plugins
 " PlugDiff: Examine changes from the previous update and the pending changes
 " PlugSnapshot[!] [output path]: Generate script for restoring the current snapshot of the plugins
-
-if has('nvim')
-  lua require('rspec').setup({
-        \ formatter = "documentation"
-        \ })
-
-  lua require('CopilotChat').setup()
-end
 
 "
 " ########                     ########
