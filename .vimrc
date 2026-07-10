@@ -397,7 +397,12 @@ Plug 'ervandew/supertab'
 " - `:Pyimport <module>` opens the <module> module
 " - completes stuff with <c-space> (configurable) - but no need since it
 "   works with <tab> as well
-Plug 'davidhalter/jedi-vim'
+" jedi-vim requires Vim built with Python 3 support (+python3). Guard the
+" plugin so machines without it (e.g. macOS system Vim) don't error on every
+" Python syntax load. On macOS install a Python 3 Vim with `brew install vim`.
+if has('python3')
+  Plug 'davidhalter/jedi-vim'
+endif
 " --
 " use a new tab when going to a definition
 " let g:jedi#use_tabs_not_buffers = 1
