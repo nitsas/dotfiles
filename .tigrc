@@ -71,3 +71,6 @@ set mouse-scroll = 3
 # Auto-refresh:
 set refresh-mode = periodic   # Enum: manual, auto, after-command, periodic
 set refresh-interval = 3      # Interval in seconds between refreshes
+
+# -
+set line-graphics = utf-8     # Make the history lines smoother :)
