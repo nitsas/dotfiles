@@ -47,6 +47,6 @@ echo "\nNow switch iTerm2 colorscheme to 'Solarized Dark' via:"
 echo "  iTerm2 Settings > Profiles > Colors > Color Presets"
 
 # Install Solarized colorscheme in XCode:
-xcode_themes_dir="~/Library/Developer/Xcode/UserData/FontAndColorThemes"
-mkdir -p $xcode_themes_dir
-cp $dotfiles_home/*.xccolortheme $xcode_themes_dir
+xcode_themes_dir="$HOME/Library/Developer/Xcode/UserData/FontAndColorThemes"
+mkdir -p "$xcode_themes_dir"
+cp "$dotfiles_home"/*.xccolortheme "$xcode_themes_dir/"
