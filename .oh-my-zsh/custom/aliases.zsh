@@ -43,6 +43,8 @@ alias ggo="git grep -iO"
 alias ggp="git grep -i -P"
 # copy the latest commit's hash
 alias glc="git log --format='%h' -n 1 | tr -d '\n' | pbcopy"
+# switch git worktrees
+alias gw="wt switch"
 # -
 # tig:
 alias t="tig"
