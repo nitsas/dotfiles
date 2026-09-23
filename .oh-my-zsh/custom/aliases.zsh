@@ -252,3 +252,5 @@ alias mcp-config.json="$EDITOR ~/.copilot/mcp-config.json"
 alias copilota="copilot --allow-all"
 # alias copilotall="copilot --allow-all-tools --add-dir=/tmp --add-dir=~/Skroutz"
 alias copilotall="copilot --allow-all"
+
+alias agya="agy --dangerously-skip-permissions"
