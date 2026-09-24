@@ -255,3 +255,5 @@ alias ca="copilot --allow-all"
 
 # Antigravity-cli with all tools allowed
 alias agya="agy --dangerously-skip-permissions"
+
+alias h="herdr"
