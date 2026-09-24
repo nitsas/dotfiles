@@ -248,9 +248,9 @@ alias dcr="docker compose run --rm --remove-orphans"
 
 alias mcp-config.json="$EDITOR ~/.copilot/mcp-config.json"
 
-# alias copilota="copilot --allow-tool view --allow-tool grep --allow-tool glob --allow-tool list_bash --allow-command find --allow-command cat --allow-command head --allow-command tail --allow-command grep --allow-command xargs --allow-command ls --allow-command wc --allow-command echo --allow-command sort --allow-command uniq --add-dir=/tmp"
+# Copilot-cli with all tools allowed
 alias copilota="copilot --allow-all"
-# alias copilotall="copilot --allow-all-tools --add-dir=/tmp --add-dir=~/Skroutz"
 alias copilotall="copilot --allow-all"
+alias ca="copilot --allow-all"
 
 alias agya="agy --dangerously-skip-permissions"
