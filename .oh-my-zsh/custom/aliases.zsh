@@ -258,3 +258,4 @@ alias car="copilot --allow-all --resume"
 alias agya="agy --dangerously-skip-permissions"
 
 alias h="herdr"
+alias hconf="$EDITOR ~/.config/herdr/config.toml"
