@@ -1,6 +1,7 @@
 .config/ranger/history
 .config/ranger/bookmarks
 .config/configstore/update-notifier-npm.json
+.config/configstore/update-notifier-@github/copilot.json
 .config/gtk-2.0
 .config/gh/hosts.yml
 .config/iterm2
