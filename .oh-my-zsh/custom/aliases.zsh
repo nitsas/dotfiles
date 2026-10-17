@@ -252,6 +252,7 @@ alias mcp-config.json="$EDITOR ~/.copilot/mcp-config.json"
 alias copilota="copilot --allow-all"
 alias copilotall="copilot --allow-all"
 alias ca="copilot --allow-all"
+alias car="copilot --allow-all --resume"
 
 # Antigravity-cli with all tools allowed
 alias agya="agy --dangerously-skip-permissions"
