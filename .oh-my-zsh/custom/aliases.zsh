@@ -256,6 +256,7 @@ alias car="copilot --allow-all --resume"
 
 # Antigravity-cli with all tools allowed
 alias agya="agy --dangerously-skip-permissions"
+alias aa="agy --dangerously-skip-permissions"
 
 alias h="herdr"
 alias hconf="$EDITOR ~/.config/herdr/config.toml"
