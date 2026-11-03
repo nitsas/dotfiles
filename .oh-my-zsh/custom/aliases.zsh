@@ -251,12 +251,17 @@ alias mcp-config.json="$EDITOR ~/.copilot/mcp-config.json"
 # Copilot-cli with all tools allowed
 alias copilota="copilot --allow-all"
 alias copilotall="copilot --allow-all"
-alias ca="copilot --allow-all"
-alias car="copilot --allow-all --resume"
+# alias ca="copilot --allow-all"
+# alias car="copilot --allow-all --resume"
 
 # Antigravity-cli with all tools allowed
 alias agya="agy --dangerously-skip-permissions"
 alias aa="agy --dangerously-skip-permissions"
+
+# Claude Code with all tools allowed
+alias claudea="claude --dangerously-skip-permissions"
+alias ca="claude --dangerously-skip-permissions"
+alias car="claude --dangerously-skip-permissions --resume"
 
 # Opencode with all tools allowed
 alias opencodea="opencode --auto"
