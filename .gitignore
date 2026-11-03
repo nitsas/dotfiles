@@ -6,3 +6,4 @@
 .config/gh/hosts.yml
 .config/iterm2
 .oh-my-zsh/custom/skroutz.zsh
+.oh-my-zsh/custom/local.zsh
