@@ -269,3 +269,5 @@ alias oa="opencode --auto"
 
 alias h="herdr"
 alias hconf="$EDITOR ~/.config/herdr/config.toml"
+
+alias "local.zsh"="$EDITOR ~/.oh-my-zsh/custom/local.zsh"
