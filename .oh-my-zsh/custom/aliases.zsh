@@ -258,5 +258,9 @@ alias car="copilot --allow-all --resume"
 alias agya="agy --dangerously-skip-permissions"
 alias aa="agy --dangerously-skip-permissions"
 
+# Opencode with all tools allowed
+alias opencodea="opencode --auto"
+alias oa="opencode --auto"
+
 alias h="herdr"
 alias hconf="$EDITOR ~/.config/herdr/config.toml"
