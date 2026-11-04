@@ -16,10 +16,7 @@
 ;
 [user]
   name = Chris Nitsas
-  email = nitsas@skroutz.gr
-[url "git@github.skroutz.gr:"]
-  insteadOf = deploy:
-  insteadOf = skroutz:
+  email = nitsas.chris@gmail.com
 [push]
   default = current
 [merge]
@@ -128,3 +125,7 @@
 	prune = true
 [init]
 	defaultBranch = main
+
+; machine-specific settings, not tracked. Git ignores the include if the file is missing.
+[include]
+  path = ~/.gitconfig.local
