@@ -1018,20 +1018,39 @@ command! FilepathCopy :let @+ = expand("%:p") . ":" . line(".")
 " ######## Functions  ########
 "
 
+" function! CurrentRepoGithubURL()
+"   return RemoteURL().'/blob/master/'.expand('%').'\#L'.line('.')
+" endfunction
+"
+" function! RemoteURL()
+"   let l:remote = system('git remote get-url --all origin')
+"   if l:remote =~ "git@"
+"     let l:remote = substitute(substitute(l:remote, ":", "/", ""), "git@", "https://", "")
+"   endif
+"   if l:remote =~ "\\.git"
+"     let l:remote = substitute(l:remote, "\\.git", "", "")
+"   endif
+"   let l:remote = substitute(l:remote, '\n\+$', '', '')
+"   return l:remote
+" endfunction
+
 function! CurrentRepoGithubURL()
-  return RemoteURL().'/blob/master/'.expand('%').'\#L'.line('.')
+  let l:file = resolve(expand('%:p'))
+  let l:dir = shellescape(fnamemodify(l:file, ':h'))
+  let l:root = trim(system('git -C '.l:dir.' rev-parse --show-toplevel'))
+  let l:path = strpart(l:file, len(l:root) + 1)
+  return RemoteURL(l:dir).'/blob/'.DefaultBranch(l:dir).'/'.l:path.'\#L'.line('.')
 endfunction
 
-function! RemoteURL()
-  let l:remote = system('git remote get-url --all origin')
-  if l:remote =~ "git@"
-    let l:remote = substitute(substitute(l:remote, ":", "/", ""), "git@", "https://", "")
-  endif
-  if l:remote =~ "\\.git"
-    let l:remote = substitute(l:remote, "\\.git", "", "")
-  endif
-  let l:remote = substitute(l:remote, '\n\+$', '', '')
-  return l:remote
+function! RemoteURL(dir)
+  let l:remote = trim(system('git -C '.a:dir.' remote get-url origin'))
+  let l:remote = substitute(l:remote, '^\(ssh://\)\?git@\([^:/]\+\)[:/]', 'https://\2/', '')
+  return substitute(l:remote, '\.git$', '', '')
+endfunction
+
+function! DefaultBranch(dir)
+  let l:ref = trim(system('git -C '.a:dir.' symbolic-ref --short refs/remotes/origin/HEAD'))
+  return v:shell_error ? 'master' : substitute(l:ref, '^origin/', '', '')
 endfunction
 
 function! BranchName()
