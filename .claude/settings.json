@@ -1,0 +1,13 @@
+{
+  "attribution": {
+    "pr": ""
+  },
+  "model": "opusplan",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
+  "editorMode": "vim",
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  }
+}
