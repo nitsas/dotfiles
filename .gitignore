@@ -8,3 +8,8 @@
 .oh-my-zsh/custom/skroutz.zsh
 .oh-my-zsh/custom/local.zsh
 .claude/CLAUDE.local.md
+# Whitelist safe opencode config (cli.json only). opencode.json and service.json
+# contain secrets (API keys/passwords) and must not be committed.
+.config/opencode/*
+!.config/opencode/cli.json
+!.config/opencode/opencode.json
