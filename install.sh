@@ -29,7 +29,8 @@ link_to_home '.config/configstore'
 link_to_home '.config/gh'
 link_to_home '.config/pry'
 link_to_home '.config/ranger'
-link_to_home '.config/herdr'
+mkdir -p "$HOME/.config/herdr"
+link_to_home '.config/herdr/config.toml'
 mkdir -p "$HOME/.config/opencode"
 link_to_home '.config/opencode/cli.json'
 link_to_home '.config/opencode/opencode.json'
