@@ -45,6 +45,7 @@ link_to_home '.scripts'
 link_to_home '.iterm2_shell_integration.zsh'
 link_to_home '.oh-my-zsh'
 mkdir -p "$HOME/.claude"
+link_to_home '.claude/CLAUDE.md'
 link_to_home '.claude/settings.json'
 link_to_home '.claude/keybindings.json'
 link_to_home '.claude/statusline-command.sh'
