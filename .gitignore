@@ -8,6 +8,7 @@
 .oh-my-zsh/custom/skroutz.zsh
 .oh-my-zsh/custom/local.zsh
 .claude/CLAUDE.local.md
+.claude/skills/synced
 # Whitelist safe opencode config:
 .config/opencode/*
 !.config/opencode/cli.json

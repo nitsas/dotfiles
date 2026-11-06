@@ -52,6 +52,7 @@ link_to_home '.claude/CLAUDE.md'
 link_to_home '.claude/settings.json'
 link_to_home '.claude/keybindings.json'
 link_to_home '.claude/statusline-command.sh'
+link_to_home '.claude/skills'
 
 echo "\nNow switch iTerm2 colorscheme to 'Solarized Dark' via:"
 echo "  iTerm2 Settings > Profiles > Colors > Color Presets"
