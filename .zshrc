@@ -185,3 +185,8 @@ elif type wl-copy > /dev/null; then
 else
   echo 'Did not find command `pbcopy` nor `wl-copy`. tmux will not be able to copy to clipboard!'
 fi
+
+# For Opencode on Ubuntu
+if [ -d "$HOME/.opencode/bin" ]; then
+  export PATH="$HOME/.opencode/bin:$PATH"
+fi
