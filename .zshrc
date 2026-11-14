@@ -190,3 +190,8 @@ fi
 if [ -d "$HOME/.opencode/bin" ]; then
   export PATH="$HOME/.opencode/bin:$PATH"
 fi
+
+# For Antigravity on Ubuntu
+if [ -d "$HOME/.local/bin" ]; then
+  export PATH="/home/nitsas/.local/bin:$PATH"
+fi
